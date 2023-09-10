@@ -3,48 +3,13 @@ import ProductCard from "../components/ProductCard";
 import { Box, Text, Flex, Button } from '@chakra-ui/react';
 import { useState } from "react";
 import { motion } from "framer-motion";
-
-const productFields = [{
-  id: 1,
-  imageUrl: "/src/assets/tmpImg.jpg",
-  name: "Atividades para colorir 1",
-  price: 30.00,
-  tags: ["Atividades", "Imprimir"],
-  url: "https://www.google.com.br",
-  description: "Um belo produto para sua criança brincar e se divertir"
-},
-{
-  id: 2,
-  imageUrl: "/src/assets/tmpImg.jpg",
-  name: "Atividades para colorir 2",
-  price: 291.90,
-  tags: ["Atividades", "Imprimir"],
-  url: "https://www.google.com.br",
-  description: "Um belo produto para sua criança brincar e se divertir"
-
-},
-{
-  id: 3,
-  imageUrl: "/src/assets/tmpImg.jpg",
-  name: "Atividades para colorir 3",
-  price: 21.90,
-  tags: ["Atividades", "Imprimir"],
-  url: "https://www.google.com.br",
-  description: "Um belo produto para sua criança brincar e se divertir"
-},
-{
-  id: 4,
-  imageUrl: "/src/assets/tmpImg.jpg",
-  name: "Atividades para colorir 4",
-  price: 21.90,
-  tags: ["Atividades", "Imprimir"],
-  url: "https://www.google.com.br",
-  description: "Um belo produto para sua criança brincar e se divertir"
-},]
+import { useAppContext } from "../AppProvider";
 
 const Catalogo = () => {
+  const { products } = useAppContext();
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 6;
+  const [productFields, setProductFields] = useState(products)
+  const productsPerPage = 3;
 
   const totalPages = Math.ceil(productFields.length / productsPerPage);
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -86,11 +51,11 @@ const Catalogo = () => {
         >
           <Flex mt={1} flexDirection={['column', 'row', 'row']} align="center" justify="center" p="1rem" gap="1rem">
 
-            {ProductForList.map(({ id, name, price, tags, imageUrl }) => {
+            {ProductForList.map(({ _id, name, price, tags, imageUrl }) => {
               return (
                 <ProductCard
-                  key={id}
-                  id={id}
+                  key={_id}
+                  id={_id}
                   imageUrl={imageUrl}
                   name={name}
                   price={price}

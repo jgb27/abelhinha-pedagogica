@@ -11,8 +11,6 @@ const ProductCard = ({ id, name, price, tags, imageUrl }) => {
     return price.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
   };
 
-  console.log(imageUrl)
-
   const renderTags = () => {
     return tags.map((tag) => (
       <Box
@@ -30,6 +28,8 @@ const ProductCard = ({ id, name, price, tags, imageUrl }) => {
       </Box>
     ));
   };
+
+  console.log(id)
 
   return (
     <Box

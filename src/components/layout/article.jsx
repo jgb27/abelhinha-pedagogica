@@ -6,7 +6,7 @@ import { Container } from '@chakra-ui/react'
 const Layout = ({ children, title }) => {
   return (
     <>
-      <Header title="Abelhinha Pedagógica" image="/public/logo.svg" />
+      <Header title="Abelhinha Pedagógica" image="/logo.svg" />
       <motion.article
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

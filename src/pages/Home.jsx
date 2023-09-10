@@ -1,10 +1,12 @@
 import Layout from "../components/layout/article"
+import { useEffect } from "react";
 import { Flex, Image, Text } from "@chakra-ui/react";
 import { FaFilePdf } from 'react-icons/fa'
 import { ImPrinter } from 'react-icons/im'
 import { BsScissors } from 'react-icons/bs'
 import CardInfo from "../components/Card";
 import ProductCard from '../components/ProductCard'
+import { useAppContext } from "../AppProvider";
 
 const cardFields = [
   {
@@ -24,47 +26,11 @@ const cardFields = [
   },
 ]
 
-const productFields = [{
-  id: 1,
-  imageUrl: "/src/assets/tmpImg.jpg",
-  name: "Atividades para colorir 1",
-  price: 30.00,
-  tags: ["Atividades", "Imprimir"],
-  url: "https://www.google.com.br",
-  description: "Um belo produto para sua criança brincar e se divertir"
-},
-{
-  id: 2,
-  imageUrl: "/src/assets/tmpImg.jpg",
-  name: "Atividades para colorir 2",
-  price: 291.90,
-  tags: ["Atividades", "Imprimir"],
-  url: "https://www.google.com.br",
-  description: "Um belo produto para sua criança brincar e se divertir"
-
-},
-{
-  id: 3,
-  imageUrl: "/src/assets/tmpImg.jpg",
-  name: "Atividades para colorir 3",
-  price: 21.90,
-  tags: ["Atividades", "Imprimir"],
-  url: "https://www.google.com.br",
-  description: "Um belo produto para sua criança brincar e se divertir"
-},
-{
-  id: 4,
-  imageUrl: "/src/assets/tmpImg.jpg",
-  name: "Atividades para colorir 4",
-  price: 21.90,
-  tags: ["Atividades", "Imprimir"],
-  url: "https://www.google.com.br",
-  description: "Um belo produto para sua criança brincar e se divertir"
-},]
-
 const Home = () => {
   const banner = "/src/assets/banner.svg"
-  const lastProduct = productFields.length;
+  const { products } = useAppContext();
+  const productFields = products;
+  const lastProduct = products.length
 
   return (
     <Layout title="Home" >
@@ -77,22 +43,31 @@ const Home = () => {
             )
           })}
         </Flex>
-        <Text fontSize="2rem" fontWeight="bold" textAlign="center" >
-          Produtos recentes
-        </Text>
+        {
+          productFields.length > 0 ?
+            <Text fontSize="2rem" fontWeight="bold" textAlign="center" >
+              Produtos recentes
+            </Text>
+            :
+            <></>
+        }
         <Flex mt={1} flexDirection={['column', 'row', 'row']} align="center" justify="center" p="1rem" gap="1rem">
-          {productFields.slice((lastProduct - 3), lastProduct).map(({ id, name, price, tags, imageUrl }) => {
-            return (
-              <ProductCard
-                key={id}
-                id={id}
-                imageUrl={imageUrl}
-                name={name}
-                price={price}
-                tags={tags}
-              />
-            )
-          })}
+          {
+            productFields.length > 0 ? productFields.slice((lastProduct - 3), lastProduct).map(({ _id, name, price, tags, imageUrl }) => {
+              return (
+                <ProductCard
+                  key={_id}
+                  id={_id}
+                  imageUrl={imageUrl}
+                  name={name}
+                  price={price}
+                  tags={tags}
+                />
+              )
+            })
+              :
+              <></>
+          }
         </Flex>
       </Flex>
     </Layout>
