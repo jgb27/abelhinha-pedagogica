@@ -1,12 +1,7 @@
 import { motion } from 'framer-motion'
 import Header from './Header'
 import Footer from './Footer'
-
-const variants = {
-  hidden: { opacity: 0, x: 0, y: 20 },
-  enter: { opacity: 1, x: 0, y: 0 },
-  exit: { opacity: 0, x: -0, y: 20 }
-}
+import { Container } from '@chakra-ui/react'
 
 const Layout = ({ children, title }) => {
   return (
@@ -18,7 +13,9 @@ const Layout = ({ children, title }) => {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.5 }}
       >
-        {children}
+        <Container maxW="container.xl">
+          {children}
+        </Container>
       </motion.article>
       <Footer />
     </>
