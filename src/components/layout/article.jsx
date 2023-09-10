@@ -13,7 +13,7 @@ const Layout = ({ children, title }) => {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <Container maxW="container.xl">
+        <Container maxW="container.xl" pb={16}>
           {children}
         </Container>
       </motion.article>
