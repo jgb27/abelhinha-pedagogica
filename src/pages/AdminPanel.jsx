@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -14,8 +14,10 @@ import {
 import { useDropzone } from "react-dropzone";
 import Layout from "../components/layout/article";
 import { AddProduct } from "../connect";
+import PopUpAdmin from "../components/PopUpAdmin";
 
 const Admin = () => {
+  const [isProductListOpen, setProductListOpen] = useState(false);
   const [productName, setProductName] = useState("");
   const [productImage, setProductImage] = useState(null);
   const [productPrice, setProductPrice] = useState(0);
@@ -148,6 +150,14 @@ const Admin = () => {
         <Button type="submit" colorScheme="teal" mt={3}>
           Adicionar Produto
         </Button>
+        <Button colorScheme="messenger" ml={3} mt={3} onClick={() => setProductListOpen(true)}>
+          Listar todos os produtos
+        </Button>
+
+        <PopUpAdmin
+          isOpen={isProductListOpen}
+          onClose={() => { setProductListOpen(false) }}
+        />
       </form>
     </Layout>
   );
