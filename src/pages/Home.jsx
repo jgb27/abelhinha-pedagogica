@@ -27,7 +27,7 @@ const cardFields = [
 const productFields = [{
   id: 1,
   imageUrl: "/src/assets/tmpImg.jpg",
-  name: "Atividades para colorir",
+  name: "Atividades para colorir 1",
   price: 30.00,
   tags: ["Atividades", "Imprimir"],
   url: "https://www.google.com.br",
@@ -36,7 +36,7 @@ const productFields = [{
 {
   id: 2,
   imageUrl: "/src/assets/tmpImg.jpg",
-  name: "Atividades para colorir",
+  name: "Atividades para colorir 2",
   price: 291.90,
   tags: ["Atividades", "Imprimir"],
   url: "https://www.google.com.br",
@@ -46,7 +46,16 @@ const productFields = [{
 {
   id: 3,
   imageUrl: "/src/assets/tmpImg.jpg",
-  name: "Atividades para colorir",
+  name: "Atividades para colorir 3",
+  price: 21.90,
+  tags: ["Atividades", "Imprimir"],
+  url: "https://www.google.com.br",
+  description: "Um belo produto para sua criança brincar e se divertir"
+},
+{
+  id: 4,
+  imageUrl: "/src/assets/tmpImg.jpg",
+  name: "Atividades para colorir 4",
   price: 21.90,
   tags: ["Atividades", "Imprimir"],
   url: "https://www.google.com.br",
@@ -55,6 +64,8 @@ const productFields = [{
 
 const Home = () => {
   const banner = "/src/assets/banner.svg"
+  const lastProduct = productFields.length;
+
   return (
     <Layout title="Home" >
       <Flex direction="column" align='center'>
@@ -70,7 +81,7 @@ const Home = () => {
           Produtos recentes
         </Text>
         <Flex mt={1} flexDirection={['column', 'row', 'row']} align="center" justify="center" p="1rem" gap="1rem">
-          {productFields.map(({ id, name, price, tags, imageUrl }) => {
+          {productFields.slice((lastProduct - 3), lastProduct).map(({ id, name, price, tags, imageUrl }) => {
             return (
               <ProductCard
                 key={id}
