@@ -11,3 +11,27 @@ export const GetAllProduct = async () => {
     throw error;
   }
 };
+
+export const AddProduct = async (product) => {
+  try {
+    const formData = new FormData();
+
+    formData.append('name', product.name);
+    formData.append('price', product.price);
+    formData.append('tags', product.tags);
+    formData.append('url', product.url);
+    formData.append('description', product.description);
+    formData.append('image', product.imagem);
+
+    const response = await axios.post(apiUrl, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    console.log(response.data)
+    return response.data;
+  } catch (error) {
+    console.error("Error adding product:", error);
+    throw error;
+  }
+};

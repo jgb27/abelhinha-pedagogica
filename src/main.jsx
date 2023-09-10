@@ -8,7 +8,7 @@ import { AppProvider } from './AppProvider';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <ChakraProvider theme={theme}>
+    <ChakraProvider theme={theme} >
       <CSSReset />
       <AppProvider>
         <RouterProvider router={App} />
