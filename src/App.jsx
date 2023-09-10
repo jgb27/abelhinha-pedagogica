@@ -4,12 +4,14 @@ import Home from './pages/Home';
 import Catalogo from './pages/Catalogo'
 import Contato from './pages/Contato'
 import AdminPanel from './pages/AdminPanel'
+import Details from './pages/Details'
 
 const App = createBrowserRouter([
   { path: "/", element: <Home /> },
   { path: "/catalogo", element: <Catalogo /> },
   { path: "/contato", element: <Contato /> },
   { path: "/admin", element: <AdminPanel /> },
+  { path: "/details/:id", element: <Details /> },
   { path: "*", element: <div><h1>404</h1></div> },
 ]);
 
