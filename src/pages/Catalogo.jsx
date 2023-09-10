@@ -1,7 +1,7 @@
 import Layout from "../components/layout/article"
 import ProductCard from "../components/ProductCard";
 import { Box, Text, Flex, Button } from '@chakra-ui/react';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useAppContext } from "../AppProvider";
 
@@ -10,6 +10,10 @@ const Catalogo = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [productFields, setProductFields] = useState(products)
   const productsPerPage = 3;
+
+  useEffect(() => {
+    setProductFields(products)
+  })
 
   const totalPages = Math.ceil(productFields.length / productsPerPage);
   const indexOfLastProduct = currentPage * productsPerPage;

@@ -1,5 +1,4 @@
 import Layout from "../components/layout/article"
-import { useEffect } from "react";
 import { Flex, Image, Text } from "@chakra-ui/react";
 import { FaFilePdf } from 'react-icons/fa'
 import { ImPrinter } from 'react-icons/im'
@@ -28,9 +27,8 @@ const cardFields = [
 
 const Home = () => {
   const banner = "/src/assets/banner.svg"
-  const { products } = useAppContext();
-  const productFields = products;
-  const lastProduct = products.length
+  const { products: productFields } = useAppContext();
+  const lastProduct = productFields.length
 
   return (
     <Layout title="Home" >

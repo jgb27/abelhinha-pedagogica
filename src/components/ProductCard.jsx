@@ -29,8 +29,6 @@ const ProductCard = ({ id, name, price, tags, imageUrl }) => {
     ));
   };
 
-  console.log(id)
-
   return (
     <Box
       w={["20rem", "15rem", "20rem"]}

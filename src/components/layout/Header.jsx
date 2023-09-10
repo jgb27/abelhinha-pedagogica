@@ -37,6 +37,7 @@ const Header = ({ title, image }) => {
         <NavLink to="/">Home</NavLink>
         <NavLink to="/catalogo">Catalogo</NavLink>
         <NavLink to="/contato">Contato</NavLink>
+        <NavLink to="/admin">Access</NavLink>
       </Box>
     </VStack>
   );
