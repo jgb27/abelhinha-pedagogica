@@ -88,11 +88,11 @@ const Catalogo = () => {
           <Button
             onClick={handlePrevPage}
             bg="transparent"
-            color={currentPage === 1 ? "gray.500" : "black"}
+            color={currentPage === 1 ? "gray.500" : "white"}
             _hover={
               currentPage === 1
                 ? { bg: "transparent", color: "gray.500" }
-                : { bg: "transparent", color: "black" }
+                : { bg: "transparent", color: "gray.300" }
             }
             isDisabled={currentPage === 1}
           >
@@ -104,11 +104,11 @@ const Catalogo = () => {
           <Button
             onClick={handleNextPage}
             bg="transparent"
-            color={currentPage === totalPages ? "gray.500" : "black"}
+            color={currentPage === totalPages ? "gray.500" : "white"}
             _hover={
               currentPage === totalPages
                 ? { bg: "transparent", color: "gray.500" }
-                : { bg: "transparent", color: "black" }
+                : { bg: "transparent", color: "gray.300" }
             }
             isDisabled={currentPage === totalPages}
           >

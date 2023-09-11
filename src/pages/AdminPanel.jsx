@@ -16,6 +16,7 @@ import { AddProduct } from "../connect";
 import PopUpAdmin from "../components/PopUpAdmin";
 import { useNavigate } from "react-router-dom";
 import { VerifyToken } from "../connect";
+import { useAppContext } from "../AppProvider";
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -66,7 +67,7 @@ const Admin = () => {
     };
 
     console.log(newProduct)
-    await AddProduct(newProduct)
+    const response = await AddProduct(newProduct)
 
     setProductName("");
     setProductImage(null);
@@ -76,8 +77,8 @@ const Admin = () => {
     setProductDescription("");
 
     toast({
-      title: "Produto Adicionado",
-      description: "Seu produto foi adicionado com sucesso.",
+      title: `${response.message}`,
+      description: `O produto ${response.product.name} foi adicionado`,
       status: "success",
       duration: 3000,
       isClosable: true,

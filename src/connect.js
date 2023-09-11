@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useAppContext } from "./AppProvider";
 
 const apiUrl = "http://127.0.0.1:2727";
 
@@ -16,15 +17,24 @@ export const GetAllProduct = async () => {
   }
 };
 
-export const AddProduct = async (newProduct) => {
+export const AddProduct = async (product) => {
   try {
     const token = getTokenFromLocalStorage();
+    const formData = new FormData();
 
-    const headers = {
-      Authorization: `${token}`,
-    };
+    formData.append('name', product.name);
+    formData.append('price', product.price);
+    formData.append('tags', product.tags);
+    formData.append('url', product.url);
+    formData.append('description', product.description);
+    formData.append('image', product.imagem);
 
-    const response = await axios.post(`${apiUrl}/product`, newProduct, { headers });
+    const response = await axios.post(`${apiUrl}/product`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Authorization': `${token}`,
+      },
+    });
 
     return response.data;
   } catch (error) {
