@@ -4,7 +4,6 @@ import {
   Button,
   Input,
   Textarea,
-  VStack,
   useToast,
   FormControl,
   FormLabel,
@@ -15,8 +14,20 @@ import { useDropzone } from "react-dropzone";
 import Layout from "../components/layout/article";
 import { AddProduct } from "../connect";
 import PopUpAdmin from "../components/PopUpAdmin";
+import { useNavigate } from "react-router-dom";
+import { VerifyToken } from "../connect";
 
 const Admin = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token")
+
+    if (!token || !VerifyToken(token)) {
+      navigate("/login");
+    }
+  }, [])
+
   const [isProductListOpen, setProductListOpen] = useState(false);
   const [productName, setProductName] = useState("");
   const [productImage, setProductImage] = useState(null);
@@ -25,6 +36,11 @@ const Admin = () => {
   const [productTags, setProductTags] = useState("");
   const [productDescription, setProductDescription] = useState("");
   const toast = useToast();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -83,6 +99,14 @@ const Admin = () => {
   return (
     <Layout title="Adicionar Produto">
       <form onSubmit={handleSubmit}>
+        <Button
+          type="button"
+          colorScheme="red"
+          mt={3}
+          onClick={handleLogout}
+        >
+          Logout
+        </Button>
         <FormControl isRequired mt={3}>
           <FormLabel>Nome do Produto</FormLabel>
           <Input

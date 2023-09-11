@@ -7,6 +7,7 @@ import {
 } from "@chakra-ui/react";
 
 import { NavLink } from "react-router-dom"
+import ThemeToggle from "../ThemeToggle";
 
 const Header = ({ title, image }) => {
 
@@ -20,6 +21,7 @@ const Header = ({ title, image }) => {
       pt="1rem"
       pb="0.5rem"
     >
+      <ThemeToggle />
       <Flex as="div" align="center" justify="center" gap="0.5rem">
         <Image src={image} alt="abelhinha" w="2rem" />
         <Heading as="h1" fontSize="1.5rem">

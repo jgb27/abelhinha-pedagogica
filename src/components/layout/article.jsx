@@ -4,6 +4,7 @@ import Footer from './Footer'
 import { Container } from '@chakra-ui/react'
 
 const Layout = ({ children, title }) => {
+
   return (
     <>
       <Header title="Abelhinha Pedagógica" image="/logo.svg" />
@@ -13,7 +14,7 @@ const Layout = ({ children, title }) => {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <Container maxW="container.xl" pb={16}>
+        <Container maxW={`container.${title == "login" ? "sm" : "lg"}`} mt={title == "login" ? "20" : 0} pb={16}>
           {children}
         </Container>
       </motion.article>

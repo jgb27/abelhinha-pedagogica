@@ -1,24 +1,28 @@
-import Layout from "../components/layout/article"
+import Layout from "../components/layout/article";
 import ProductCard from "../components/ProductCard";
-import { Box, Text, Flex, Button } from '@chakra-ui/react';
+import { Box, Text, Flex, Button, useColorMode } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useAppContext } from "../AppProvider";
 
 const Catalogo = () => {
   const { products } = useAppContext();
+  const { colorMode } = useColorMode();
   const [currentPage, setCurrentPage] = useState(1);
-  const [productFields, setProductFields] = useState(products)
+  const [productFields, setProductFields] = useState(products);
   const productsPerPage = 3;
 
   useEffect(() => {
-    setProductFields(products)
-  })
+    setProductFields(products);
+  }, [products]);
 
   const totalPages = Math.ceil(productFields.length / productsPerPage);
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const ProductForList = productFields.slice(indexOfFirstProduct, indexOfLastProduct);
+  const ProductForList = productFields.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
 
   const handlePrevPage = () => {
     if (currentPage > 1) {
@@ -33,28 +37,38 @@ const Catalogo = () => {
   };
 
   return (
-    <Layout title="Catalogo" >
+    <Layout title="Catalogo">
       <Box w="100%" h="100%">
         <motion.div
-          initial={{ opacity: 0 }
-          }
+          initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}>
-          <Text fontSize="2xl" fontWeight="bold" textAlign="left">
+          transition={{ duration: 0.5 }}
+        >
+          <Text
+            fontSize="2xl"
+            fontWeight="bold"
+            textAlign="left"
+            color={colorMode === "dark" ? "white" : "black"}
+          >
             Catálogo
           </Text>
         </motion.div>
 
         <motion.div
-          initial={{ y: 100 }
-          }
+          initial={{ y: 100 }}
           animate={{ y: 0 }}
           exit={{ y: 100 }}
           transition={{ duration: 0.5 }}
         >
-          <Flex mt={1} flexDirection={['column', 'row', 'row']} align="center" justify="center" p="1rem" gap="1rem">
-
+          <Flex
+            mt={4}
+            flexDirection={["column", "row", "row"]}
+            align="center"
+            justify="center"
+            p="1rem"
+            gap="1rem"
+          >
             {ProductForList.map(({ _id, name, price, tags, imageUrl }) => {
               return (
                 <ProductCard
@@ -65,7 +79,7 @@ const Catalogo = () => {
                   price={price}
                   tags={tags}
                 />
-              )
+              );
             })}
           </Flex>
         </motion.div>
@@ -75,7 +89,11 @@ const Catalogo = () => {
             onClick={handlePrevPage}
             bg="transparent"
             color={currentPage === 1 ? "gray.500" : "black"}
-            _hover={currentPage === 1 ? { bg: "transparent", color: "gray.500" } : { bg: "transparent", color: "black" }}
+            _hover={
+              currentPage === 1
+                ? { bg: "transparent", color: "gray.500" }
+                : { bg: "transparent", color: "black" }
+            }
             isDisabled={currentPage === 1}
           >
             Anterior
@@ -87,7 +105,11 @@ const Catalogo = () => {
             onClick={handleNextPage}
             bg="transparent"
             color={currentPage === totalPages ? "gray.500" : "black"}
-            _hover={currentPage === totalPages ? { bg: "transparent", color: "gray.500" } : { bg: "transparent", color: "black" }}
+            _hover={
+              currentPage === totalPages
+                ? { bg: "transparent", color: "gray.500" }
+                : { bg: "transparent", color: "black" }
+            }
             isDisabled={currentPage === totalPages}
           >
             Próxima
@@ -95,7 +117,7 @@ const Catalogo = () => {
         </Flex>
       </Box>
     </Layout>
-  )
-}
+  );
+};
 
 export default Catalogo;

@@ -1,5 +1,4 @@
 import {
-  Container,
   HStack,
   Text,
   Box,
@@ -8,9 +7,10 @@ import {
   Button,
   VStack,
   Center,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
-import { Navigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Layout from "../components/layout/article";
 import { useAppContext } from "../AppProvider";
 
@@ -25,6 +25,8 @@ function Details() {
       throw new Error("Product not found");
     }
 
+    const textColor = useColorModeValue("black", "white"); // Define a cor do texto com base no modo de cores
+
     const formatPrice = (price) => {
       return parseFloat(price.toString().replace(".", ",")).toLocaleString(
         "pt-BR",
@@ -38,13 +40,13 @@ function Details() {
     return (
       <Layout title={product.name}>
         <Center>
-          <Text fontSize="3xl" fontWeight="bold" mb={4}>
+          <Text fontSize="3xl" fontWeight="bold" mb={4} color={textColor}>
             {product.name} - {formatPrice(product.price)}
           </Text>
         </Center>
         <HStack spacing={8} justifyContent="center">
           <Box
-            bg="white"
+            bg={useColorModeValue("white", "gray.800")} // Cor de fundo dependente do modo de cores
             borderRadius="0.5rem"
             boxShadow="0 0 2rem rgba(0, 0, 0, 0.4)"
             p="1rem"
@@ -74,17 +76,19 @@ function Details() {
             </Link>
           </Button>
           <Box width="100%" maxWidth="600px">
-            <Text fontSize="lg" fontWeight="bold">
+            <Text fontSize="lg" fontWeight="bold" color={textColor}>
               Descrição do Produto
             </Text>
-            <Text fontSize="lg">{product.description}</Text>
+            <Text fontSize="lg" color={textColor}>
+              {product.description}
+            </Text>
           </Box>
         </VStack>
       </Layout>
     );
   } catch (err) {
     console.error(err);
-    Navigate({ to: "/" })
+    Navigate({ to: "/" });
     return null;
   }
 }
