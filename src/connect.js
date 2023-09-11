@@ -83,13 +83,3 @@ export const FindProduct = async ({ name, term }) => {
     throw `Error ${error.response.status}: ${message} `;
   }
 }
-
-export const VerifyToken = async (token) => {
-  try {
-    const response = await axios.post(`${apiUrl}/verify`, { token: token })
-    return response.status;
-  } catch (error) {
-    console.error("Error deleting product:", error);
-    throw error;
-  }
-}
