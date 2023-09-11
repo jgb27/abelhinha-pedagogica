@@ -26,7 +26,7 @@ const cardFields = [
 ]
 
 const Home = () => {
-  const banner = "/src/assets/banner.svg"
+  const banner = "/assets/banner.svg"
   const { products: productFields } = useAppContext();
   const lastProduct = productFields.length
 
