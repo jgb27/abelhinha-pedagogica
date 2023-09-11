@@ -26,7 +26,7 @@ const cardFields = [
 ]
 
 const Home = () => {
-  const banner = "/assets/banner.svg"
+  const banner = "https://abelhinha-bucket.s3.sa-east-1.amazonaws.com/banner.svg" || "/assets/banner.svg"
   const { products: productFields } = useAppContext();
   const lastProduct = productFields.length
 

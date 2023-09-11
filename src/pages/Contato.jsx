@@ -10,10 +10,12 @@ import {
   FormControl,
   FormLabel,
   Heading,
-  Button
+  Button,
+  useColorMode
 } from '@chakra-ui/react';
 
 const Contato = () => {
+  const { colorMode } = useColorMode();
   const [formData, setFormData] = useState({
     name: '',
     message: '',
@@ -61,13 +63,21 @@ const Contato = () => {
 
   return (
     <Layout title="Contato" >
-      <Center p={16}>
+      <Box
+        mt={8}
+        bg={colorMode === 'light' ? "white" : "gray.800"}
+        p={6}
+        rounded="lg"
+        shadow="md"
+        maxW="md"
+        mx="auto"
+      >
         <Flex flexDirection="column" align="center" justify="center" p="1rem" gap="1rem">
           <Heading as="h1" fontSize="2xl" mb={4}>
             Entre em Contato
           </Heading>
-          <Box>
-            <p>Vamos conversar sobre o seu projeto via WhatsApp ou Instagram.</p>
+          <Box textAlign="center">
+            <p>Vamos conversar, me mande uma mensagem pelo WhatsApp ou Instagram.</p>
           </Box>
           <Box w="80%">
             <form onSubmit={handleSubmit}>
@@ -78,17 +88,17 @@ const Contato = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  border="1px solid black"
+                  border="1px solid #f1f1f1"
                   borderRadius="0.25rem"
                 />
               </FormControl>
-              <FormControl id="message" isRequired mt={2}>
+              <FormControl id="message" isRequired mt={6}>
                 <FormLabel>Mensagem</FormLabel>
                 <Textarea
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
-                  border="1px solid black"
+                  border="1px solid #f1f1f1"
                   borderRadius="0.25rem"
                   resize="vertical"
                 />
@@ -99,11 +109,11 @@ const Contato = () => {
                 flexDirection="column"
                 align="center"
               >
-                <Button type="submit" colorScheme="whatsapp" mt={4} size="lg">
+                <Button type="submit" variant="ghost" colorScheme="whatsapp" mt={4} size="lg">
                   Enviar Mensagem via WhatsApp
                 </Button>
                 <Link href="https://www.instagram.com/abelhinhapedagogica/" isExternal>
-                  <Button colorScheme="teal" size="lg">
+                  <Button variant="ghost" colorScheme="teal" size="lg">
                     Acessar o Instagram
                   </Button>
                 </Link>
@@ -111,7 +121,7 @@ const Contato = () => {
             </form>
           </Box>
         </Flex>
-      </Center>
+      </Box>
     </Layout>
   )
 }

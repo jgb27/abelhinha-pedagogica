@@ -11,8 +11,8 @@ function Login() {
   });
 
   const navigate = useNavigate();
-  const { colorMode } = useColorMode(); // Obtenha o modo de cores atual
-  const toast = useToast(); // Use o hook useToast para exibir toasts
+  const { colorMode } = useColorMode();
+  const toast = useToast();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -47,7 +47,7 @@ function Login() {
   return (
     <Layout title="login">
       <Box
-        bg={colorMode === 'light' ? "white" : "gray.800"} // Use cores do tema com base no modo de cores
+        bg={colorMode === 'light' ? "white" : "gray.800"}
         p={6}
         rounded="lg"
         shadow="md"
