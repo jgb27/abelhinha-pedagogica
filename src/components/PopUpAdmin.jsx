@@ -1,6 +1,5 @@
 import React from "react";
 import { useAppContext } from "../AppProvider";
-
 import {
   Box,
   Modal,
@@ -24,29 +23,19 @@ const PopUpAdmin = ({ isOpen, onClose }) => {
   const closeButtonColorScheme = { light: "teal", dark: "teal" };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="xl">
+    <Modal isOpen={isOpen} onClose={onClose} size="6xl">
       <ModalOverlay />
       <ModalContent
         bg={modalContentBgColor[colorMode]}
         color={modalHeaderTextColor[colorMode]}
+        boxShadow="lg"
+        borderRadius="md"
+        p={4}
       >
-        <ModalHeader
-          bg={modalHeaderBgColor[colorMode]}
-          color={modalHeaderTextColor[colorMode]}
-        >
-          Product List
-        </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <ProductList products={products} />
         </ModalBody>
-        <Button
-          colorScheme={closeButtonColorScheme[colorMode]}
-          onClick={onClose}
-          mt={4}
-        >
-          Close
-        </Button>
       </ModalContent>
     </Modal>
   );
