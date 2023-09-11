@@ -73,6 +73,17 @@ export const AccessPage = async (user) => {
   }
 };
 
+export const FindProduct = async ({ name, term }) => {
+  try {
+    const response = await axios.get(`${apiUrl}/product/${term}/${name}`)
+    return response.data;
+  } catch (error) {
+    const { message } = error.response.data
+    console.error("Error find product:", message);
+    throw `Error ${error.response.status}: ${message} `;
+  }
+}
+
 export const VerifyToken = async (token) => {
   try {
     const response = await axios.post(`${apiUrl}/verify`, { token: token })

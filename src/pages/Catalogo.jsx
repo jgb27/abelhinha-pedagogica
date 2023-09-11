@@ -1,16 +1,22 @@
 import Layout from "../components/layout/article";
 import ProductCard from "../components/ProductCard";
-import { Box, Text, Flex, Button, useColorMode } from "@chakra-ui/react";
+import { Box, Text, Flex, Button, useColorMode, useToast, Input, Select } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useAppContext } from "../AppProvider";
+import { FindProduct } from "../connect";
 
 const Catalogo = () => {
   const { products } = useAppContext();
   const { colorMode } = useColorMode();
   const [currentPage, setCurrentPage] = useState(1);
   const [productFields, setProductFields] = useState(products);
-  const productsPerPage = 3;
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchOption, setSearchOption] = useState('name');
+  const productsPerPage = 6;
+  const toast = useToast({
+    position: "top-right"
+  });
 
   useEffect(() => {
     setProductFields(products);
@@ -36,6 +42,25 @@ const Catalogo = () => {
     }
   };
 
+  const handleSearch = async () => {
+    try {
+      if (searchTerm) {
+        const { product } = await FindProduct({ name: searchTerm, term: searchOption })
+        setProductFields(product)
+      } else {
+        setProductFields(products);
+      }
+    } catch (error) {
+      toast({
+        title: "Erro find product",
+        description: error,
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+  };
+
   return (
     <Layout title="Catalogo">
       <Box w="100%" h="100%">
@@ -45,29 +70,62 @@ const Catalogo = () => {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <Text
-            fontSize="2xl"
-            fontWeight="bold"
-            textAlign="left"
-            color={colorMode === "dark" ? "white" : "black"}
+          <Flex
+            flexDirection={["column", "column", "row"]}
+            alignItems="center"
+            justifyContent="space-between"
+            padding={4}
           >
-            Catálogo
-          </Text>
+            <Text
+              fontSize="2xl"
+              fontWeight="bold"
+              textAlign="center"
+              color={colorMode === "dark" ? "white" : "black"}
+            >
+              Catálogo
+            </Text>
+            <Flex alignItems="center" mt={4} flexDirection={["column", "column", "row"]}>
+              <Input
+                flex="1"
+                border="none"
+                mt={2}
+                placeholder={`Pesquisar itens por`}
+                value={searchTerm}
+                onChange={(e) => {
+                  setSearchTerm(e.target.value)
+                  handleSearch()
+                }}
+                onBlur={handleSearch}
+              />
+              <Select
+                flex="1"
+                mt={2}
+                value={searchOption}
+                onChange={(e) => {
+                  setSearchOption(e.target.value)
+                  handleSearch()
+                }}
+              >
+                <option value="name">Nome</option>
+                <option value="tag">Tag</option>
+              </Select>
+            </Flex>
+          </Flex>
         </motion.div>
 
         <motion.div
           initial={{ y: 100 }}
           animate={{ y: 0 }}
           exit={{ y: 100 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.7 }}
         >
           <Flex
             mt={4}
-            flexDirection={["column", "row", "row"]}
+            flexWrap="wrap"
+            flexDirection="row"
             align="center"
             justify="center"
-            p="1rem"
-            gap="1rem"
+            gap={3}
           >
             {ProductForList.map(({ _id, name, price, tags, imageUrl }) => {
               return (
@@ -84,7 +142,7 @@ const Catalogo = () => {
           </Flex>
         </motion.div>
 
-        <Flex justify="center" mt="1rem" mb="1rem" align="center">
+        <Flex justify="center" mt={4} mb={4} alignItems="center">
           <Button
             onClick={handlePrevPage}
             bg="transparent"
@@ -98,7 +156,7 @@ const Catalogo = () => {
           >
             Anterior
           </Button>
-          <Text ml="1rem" mr="1rem" mt="0.5rem">
+          <Text mx={4}>
             {currentPage} de {totalPages}
           </Text>
           <Button
