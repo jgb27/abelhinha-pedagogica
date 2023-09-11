@@ -76,8 +76,8 @@ export const AccessPage = async (user) => {
 
 export const VerifyToken = async (token) => {
   try {
-    const response = await axios.post(`${apiUrl}/verify`, token)
-    return response.data;
+    const response = await axios.post(`${apiUrl}/verify`, { token: token })
+    return response.status;
   } catch (error) {
     console.error("Error deleting product:", error);
     throw error;

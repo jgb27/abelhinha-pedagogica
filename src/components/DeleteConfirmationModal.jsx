@@ -13,7 +13,6 @@ import {
 } from "@chakra-ui/react";
 
 function DeleteConfirmationModal({ product, isOpen, onClose, onConfirmDelete }) {
-  console.log(product)
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />

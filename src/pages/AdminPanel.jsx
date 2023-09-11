@@ -15,8 +15,6 @@ import Layout from "../components/layout/article";
 import { AddProduct } from "../connect";
 import PopUpAdmin from "../components/PopUpAdmin";
 import { useNavigate } from "react-router-dom";
-import { VerifyToken } from "../connect";
-import { useAppContext } from "../AppProvider";
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -24,7 +22,7 @@ const Admin = () => {
   useEffect(() => {
     const token = localStorage.getItem("token")
 
-    if (!token || !VerifyToken(token)) {
+    if (!token) {
       navigate("/login");
     }
   }, [])
