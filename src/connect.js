@@ -1,7 +1,6 @@
 import axios from "axios";
-import { useAppContext } from "./AppProvider";
 
-const apiUrl = "http://127.0.0.1:2727";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const getTokenFromLocalStorage = () => {
   return localStorage.getItem("token");
