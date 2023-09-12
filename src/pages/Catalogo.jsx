@@ -1,14 +1,18 @@
 import Layout from "../components/layout/article";
+import NotFound from "../components/NotFound"
 import ProductCard from "../components/ProductCard";
-import { Box, Text, Flex, Button, useColorMode, useToast, Input, Select } from "@chakra-ui/react";
+import { Box, Text, Flex, Button, useColorMode, useToast, Input, Select, Center } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useAppContext } from "../AppProvider";
 import { FindProduct } from "../connect";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const Catalogo = () => {
+  const image = "https://abelhinha-bucket.s3.sa-east-1.amazonaws.com/404.svg" || "/assets/404.svg"
   const { products } = useAppContext();
   const { colorMode } = useColorMode();
+  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [productFields, setProductFields] = useState(products);
   const [searchTerm, setSearchTerm] = useState('');
@@ -20,6 +24,7 @@ const Catalogo = () => {
 
   useEffect(() => {
     setProductFields(products);
+    handleIsLoading();
   }, [products]);
 
   const totalPages = Math.ceil(productFields.length / productsPerPage);
@@ -34,6 +39,10 @@ const Catalogo = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
     }
+  };
+
+  const handleIsLoading = () => {
+    setLoading(false);
   };
 
   const handleNextPage = () => {
@@ -60,6 +69,42 @@ const Catalogo = () => {
       });
     }
   };
+
+  const NextPrev = () => {
+    return (
+      <Flex justify="center" mt={4} mb={4} alignItems="center">
+        <Button
+          onClick={handlePrevPage}
+          bg="transparent"
+          color={currentPage === 1 ? "gray.500" : "white"}
+          _hover={
+            currentPage === 1
+              ? { bg: "transparent", color: "gray.500" }
+              : { bg: "transparent", color: "gray.300" }
+          }
+          isDisabled={currentPage === 1}
+        >
+          Anterior
+        </Button>
+        <Text mx={4}>
+          {currentPage} de {totalPages}
+        </Text>
+        <Button
+          onClick={handleNextPage}
+          bg="transparent"
+          color={currentPage === totalPages ? "gray.500" : "white"}
+          _hover={
+            currentPage === totalPages
+              ? { bg: "transparent", color: "gray.500" }
+              : { bg: "transparent", color: "gray.300" }
+          }
+          isDisabled={currentPage === totalPages}
+        >
+          Próxima
+        </Button>
+      </Flex>
+    )
+  }
 
   return (
     <Layout title="Catalogo">
@@ -99,7 +144,12 @@ const Catalogo = () => {
               />
               <Select
                 flex="1"
+                cursor="po"
+                border="none"
                 mt={2}
+                _focus={{
+                  border: "none"
+                }}
                 value={searchOption}
                 onChange={(e) => {
                   setSearchOption(e.target.value)
@@ -113,66 +163,43 @@ const Catalogo = () => {
           </Flex>
         </motion.div>
 
-        <motion.div
-          initial={{ y: 100 }}
-          animate={{ y: 0 }}
-          exit={{ y: 100 }}
-          transition={{ duration: 0.7 }}
-        >
-          <Flex
-            mt={4}
-            flexWrap="wrap"
-            flexDirection="row"
-            align="center"
-            justify="center"
-            gap={3}
+        {!loading
+          ? <motion.div
+            initial={{ y: 100 }}
+            animate={{ y: 0 }}
+            exit={{ y: 100 }}
+            transition={{ duration: 0.7 }}
           >
-            {ProductForList.map(({ _id, name, price, tags, imageUrl }) => {
-              return (
-                <ProductCard
-                  key={_id}
-                  id={_id}
-                  imageUrl={imageUrl}
-                  name={name}
-                  price={price}
-                  tags={tags}
-                />
-              );
-            })}
-          </Flex>
-        </motion.div>
-
-        <Flex justify="center" mt={4} mb={4} alignItems="center">
-          <Button
-            onClick={handlePrevPage}
-            bg="transparent"
-            color={currentPage === 1 ? "gray.500" : "white"}
-            _hover={
-              currentPage === 1
-                ? { bg: "transparent", color: "gray.500" }
-                : { bg: "transparent", color: "gray.300" }
-            }
-            isDisabled={currentPage === 1}
-          >
-            Anterior
-          </Button>
-          <Text mx={4}>
-            {currentPage} de {totalPages}
-          </Text>
-          <Button
-            onClick={handleNextPage}
-            bg="transparent"
-            color={currentPage === totalPages ? "gray.500" : "white"}
-            _hover={
-              currentPage === totalPages
-                ? { bg: "transparent", color: "gray.500" }
-                : { bg: "transparent", color: "gray.300" }
-            }
-            isDisabled={currentPage === totalPages}
-          >
-            Próxima
-          </Button>
-        </Flex>
+            {ProductForList > 3 ? <NextPrev /> : <></>}
+            <Flex
+              mt={4}
+              flexWrap="wrap"
+              flexDirection="row"
+              align="center"
+              justify="center"
+              gap={3}
+            >
+              {
+                ProductForList.length > 0 ? ProductForList.map(({ _id, name, price, tags, imageUrl }) => {
+                  return (
+                    <ProductCard
+                      key={_id}
+                      id={_id}
+                      imageUrl={imageUrl}
+                      name={name}
+                      price={price}
+                      tags={tags}
+                    />
+                  );
+                })
+                  :
+                  <NotFound title="Not found" image={image} />
+              }
+            </Flex>
+          </motion.div>
+          : <Center><LoadingSpinner loading={loading} /></Center>
+        }
+        <NextPrev />
       </Box>
     </Layout>
   );
