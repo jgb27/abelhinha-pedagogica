@@ -2,7 +2,9 @@
 
 ![Banner](public/assets/banner.svg)
 
-Bem-vindo ao repositório da Abelhinha Pedagógica! Este é um site desenvolvido em ReactJS e Chakra UI para venda de ebooks e atividades pedagógicas. A API utilizada para gerenciar os dados do site pode ser encontrada [aqui](https://github.com/jgbispo/api-abelhinha) e é mantida pelo mesmo autor.
+Bem-vindo ao repositório da Abelhinha Pedagógica! Este é um site desenvolvido em ReactJS e Chakra UI para venda de ebooks e atividades pedagógicas.
+
+[site](https://abelhinhapedagogica.vercel.app/)
 
 ## :book: Visão Geral
 
