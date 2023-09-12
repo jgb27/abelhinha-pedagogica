@@ -1,11 +1,13 @@
 import Layout from "../components/layout/article"
-import { Flex, Image, Text } from "@chakra-ui/react";
+import { Box, Center, Flex, Image, Text } from "@chakra-ui/react";
 import { FaFilePdf } from 'react-icons/fa'
 import { ImPrinter } from 'react-icons/im'
 import { BsScissors } from 'react-icons/bs'
 import CardInfo from "../components/Card";
 import ProductCard from '../components/ProductCard'
 import { useAppContext } from "../AppProvider";
+import { useEffect, useState } from "react";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const cardFields = [
   {
@@ -26,12 +28,26 @@ const cardFields = [
 ]
 
 const Home = () => {
-  const banner = "/assets/banner.svg"
-  const { products: productFields } = useAppContext();
+  const banner = "https://abelhinha-bucket.s3.sa-east-1.amazonaws.com/banner.svg" || "/assets/banner.svg"
+  const { products } = useAppContext();
+  const [productFields, setProductFields] = useState(products)
   const lastProduct = productFields.length
+  const productsForList = productFields.length >= 3 ? productFields.slice(lastProduct - 3) : productFields
+  const [loading, setLoading] = useState(true)
 
-  return (
-    <Layout title="Home" >
+  useEffect(() => {
+    setProductFields(products)
+    setTimeout(() => {
+      handleIsLoading()
+    }, 700)
+  }, [products])
+
+  const handleIsLoading = () => {
+    setLoading(false)
+  }
+
+  const HomePage = () => {
+    return (
       <Flex direction="column" align='center'>
         <Image pt="1em" src={banner} alt="banner" w={['100%', '60%']} h={['100%', '60%']} />
         <Flex mt={1} flexDirection={['column', 'row', 'row']} align="center" justify="center" p="1rem" gap="1rem">
@@ -51,12 +67,12 @@ const Home = () => {
         }
         <Flex mt={1} flexDirection={['column', 'row', 'row']} align="center" justify="center" p="1rem" gap="1rem">
           {
-            productFields.length > 0 ? productFields.slice((lastProduct - 3), lastProduct).map(({ _id, name, price, tags, imageUrl }) => {
+            productFields.length > 0 ? productsForList.map(({ _id, name, price, tags, image_url }) => {
               return (
                 <ProductCard
                   key={_id}
                   id={_id}
-                  imageUrl={imageUrl}
+                  imageUrl={image_url}
                   name={name}
                   price={price}
                   tags={tags}
@@ -68,6 +84,12 @@ const Home = () => {
           }
         </Flex>
       </Flex>
+    )
+  }
+
+  return (
+    <Layout title="Home" >
+      {loading ? <Center><LoadingSpinner loading={loading} /></Center> : <HomePage />}
     </Layout>
   )
 }

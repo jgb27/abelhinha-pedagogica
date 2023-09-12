@@ -117,7 +117,7 @@ function ProductList() {
                 <Td>{product.name}</Td>
                 <Td>{formatPrice(product.price)}</Td>
                 <Td>
-                  <Image src={product.imageUrl} alt={product.name} boxSize="50px" />
+                  <Image src={product.image_url} alt={product.name} boxSize="50px" />
                 </Td>
                 <Td>
                   <Flex gap={2}>
