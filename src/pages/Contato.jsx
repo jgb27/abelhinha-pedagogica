@@ -1,5 +1,5 @@
 import Layout from "../components/layout/article"
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Box,
   Flex,
@@ -13,14 +13,27 @@ import {
   Button,
   useColorMode
 } from '@chakra-ui/react';
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const Contato = () => {
   const { colorMode } = useColorMode();
+  const [loading, setLoading] = useState(true)
+
   const [formData, setFormData] = useState({
     name: '',
     message: '',
     tel: '',
   });
+
+  useEffect(() => {
+    setTimeout(() => {
+      handleIsLoading()
+    }, 700)
+  }, [])
+
+  const handleIsLoading = () => {
+    setLoading(false)
+  }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -61,8 +74,8 @@ const Contato = () => {
     }
   };
 
-  return (
-    <Layout title="Contato" >
+  const ContatoPage = () => {
+    return (
       <Box
         mt={8}
         bg={colorMode === 'light' ? "white" : "gray.800"}
@@ -122,6 +135,12 @@ const Contato = () => {
           </Box>
         </Flex>
       </Box>
+    )
+  }
+
+  return (
+    <Layout title="Contato" >
+      {loading ? <Center><LoadingSpinner loading={loading} /></Center> : <ContatoPage />}
     </Layout>
   )
 }
