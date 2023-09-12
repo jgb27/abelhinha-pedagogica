@@ -67,12 +67,12 @@ const Home = () => {
         }
         <Flex mt={1} flexDirection={['column', 'row', 'row']} align="center" justify="center" p="1rem" gap="1rem">
           {
-            productFields.length > 0 ? productsForList.map(({ _id, name, price, tags, imageUrl }) => {
+            productFields.length > 0 ? productsForList.map(({ _id, name, price, tags, image_url }) => {
               return (
                 <ProductCard
                   key={_id}
                   id={_id}
-                  imageUrl={imageUrl}
+                  imageUrl={image_url}
                   name={name}
                   price={price}
                   tags={tags}

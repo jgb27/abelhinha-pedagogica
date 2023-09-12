@@ -180,12 +180,12 @@ const Catalogo = () => {
               gap={3}
             >
               {
-                ProductForList.length > 0 ? ProductForList.map(({ _id, name, price, tags, imageUrl }) => {
+                ProductForList.length > 0 ? ProductForList.map(({ _id, name, price, tags, image_url }) => {
                   return (
                     <ProductCard
                       key={_id}
                       id={_id}
-                      imageUrl={imageUrl}
+                      imageUrl={image_url}
                       name={name}
                       price={price}
                       tags={tags}
