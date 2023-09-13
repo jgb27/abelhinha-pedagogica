@@ -17,12 +17,12 @@ const Footer = () => {
         <Text fontSize="0.8rem" textAlign="center">
           Desenvolvido por{" "}
           <Link
-            href="https://github.com/jgbispo"
             target="_blank"
+            href="https://linktr.ee/jgb27"
             rel="noopener noreferrer"
             color="yellow.500"
           >
-            JGB27
+            jgb27
           </Link>{" "}
           &copy; {new Date().getFullYear()} - Abelhinha Pedagógica
         </Text>
