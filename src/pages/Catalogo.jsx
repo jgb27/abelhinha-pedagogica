@@ -1,5 +1,5 @@
 import Layout from "../components/layout/article";
-import NotFound from "../components/NotFound"
+import { NotFound } from "../pages/NotFound"
 import ProductCard from "../components/ProductCard";
 import { Box, Text, Flex, Button, useColorMode, useToast, Input, Select, Center } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
@@ -9,7 +9,6 @@ import { FindProduct } from "../connect";
 import LoadingSpinner from "../components/LoadingSpinner";
 
 const Catalogo = () => {
-  const image = "https://abelhinha-bucket.s3.sa-east-1.amazonaws.com/logo.svg" || "/assets/404.svg"
   const { products } = useAppContext();
   const { colorMode } = useColorMode();
   const [loading, setLoading] = useState(true);
@@ -193,13 +192,22 @@ const Catalogo = () => {
                   );
                 })
                   :
-                  <NotFound title="Not found" image={image} />
+                  <NotFound
+                    title='Produto não encontrado'
+                    text='Não foi encontrado nenhum produto'
+                    isRedirect={
+                      {
+                        copy: 'Mas isso não é o fim, entre em contato, podemos encontrar algo que te interrese',
+                        toRedirect: 'contato'
+                      }
+                    }
+                  />
               }
             </Flex>
           </motion.div>
           : <Center><LoadingSpinner loading={loading} /></Center>
         }
-        <NextPrev />
+        {ProductForList.length > 0 ? <NextPrev /> : <></>}
       </Box>
     </Layout>
   );
