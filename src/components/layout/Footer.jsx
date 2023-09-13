@@ -22,7 +22,7 @@ const Footer = () => {
             rel="noopener noreferrer"
             color="yellow.500"
           >
-            João Gustavo Bispo
+            JGB27
           </Link>{" "}
           &copy; {new Date().getFullYear()} - Abelhinha Pedagógica
         </Text>
