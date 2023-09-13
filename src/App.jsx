@@ -6,6 +6,7 @@ import Contato from './pages/Contato'
 import AdminPanel from './pages/AdminPanel'
 import Details from './pages/Details'
 import Login from './pages/Login';
+import NotFound from './pages/NotFound';
 
 const App = () => {
   return (
@@ -16,7 +17,20 @@ const App = () => {
       <Route path='/contato' element={<Contato />} />
       <Route path='/login' element={<Login />} />
       <Route path='/details/:id' element={<Details />} />
-      <Route path='*' element={<h1>404</h1>} />
+      <Route path='*'
+        element={
+          <NotFound
+            title='Página não encontrada'
+            text='A página que você está procurando não existe.'
+            isRedirect={
+              {
+                copy: 'Não perca a viagem, acesse nosso catálogo',
+                toRedirect: 'catalogo'
+              }
+            }
+          />
+        }
+      />
     </Routes>
   )
 }
