@@ -11,29 +11,33 @@ import {
   Image,
 } from "@chakra-ui/react";
 import { useDropzone } from "react-dropzone";
+import { useNavigate } from "react-router-dom";
+
 import Layout from "../components/layout/article";
 import { AddProduct } from "../connect";
 import PopUpAdmin from "../components/PopUpAdmin";
-import { useNavigate } from "react-router-dom";
+import {useAppContext} from "../AppProvider"
 
 const Admin = () => {
   const navigate = useNavigate();
-
+  const {products, setProducts} = useAppContext();
+  
   useEffect(() => {
     const token = localStorage.getItem("token")
-
     if (!token) {
       navigate("/login");
     }
   }, [])
 
   const [isProductListOpen, setProductListOpen] = useState(false);
+
   const [productName, setProductName] = useState("");
   const [productImage, setProductImage] = useState(null);
   const [productPrice, setProductPrice] = useState(0);
   const [productUrl, setProductUrl] = useState("");
   const [productTags, setProductTags] = useState("");
   const [productDescription, setProductDescription] = useState("");
+
   const toast = useToast({
     position: 'top-right'
   });
@@ -59,15 +63,19 @@ const Admin = () => {
 
     const newProduct = {
       name: productName,
-      imagem: productImage,
+      imagem_url: productImage,
       price: productPrice,
       url: productUrl,
       tags: productTags,
       description: productDescription,
     };
 
-    console.log(newProduct)
-    const response = await AddProduct(newProduct)
+    try{
+
+    const response = await AddProduct(newProduct).then(data => {
+      setProducts([...products, data.product]);
+      return data;
+    })
 
     setProductName("");
     setProductImage(null);
@@ -83,6 +91,16 @@ const Admin = () => {
       duration: 3000,
       isClosable: true,
     });
+  
+    } catch(error){
+      toast({
+        title: 'Não foi possivel adicionar',
+        description: `${error.response.data.message}`,
+        status: "error",
+        duration: 3000,
+        isClosable: true
+      });
+    } 
   };
 
   const onDrop = (acceptedFiles) => {
@@ -182,6 +200,7 @@ const Admin = () => {
         <PopUpAdmin
           isOpen={isProductListOpen}
           onClose={() => { setProductListOpen(false) }}
+          products={products}
         />
       </form>
     </Layout>
