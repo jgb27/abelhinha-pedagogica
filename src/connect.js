@@ -68,8 +68,7 @@ export const AccessPage = async (user) => {
 
     return response.data;
   } catch (error) {
-    console.error("Error deleting product:", error);
-    throw error;
+    throw error.response.data;
   }
 };
 

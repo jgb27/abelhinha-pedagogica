@@ -12,7 +12,10 @@ function Login() {
 
   const navigate = useNavigate();
   const { colorMode } = useColorMode();
-  const toast = useToast();
+
+  const toast = useToast({
+    position: 'top-right',
+  });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -21,24 +24,28 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+  try{
     const response = await AccessPage(formData);
+
+    console.log(response)
 
     if (response.token) {
       localStorage.setItem("token", response.token)
       toast({
-        title: "Entrando",
+        title: "Login efetuado com sucesso",
         description: response.message,
-        status: "loading",
-        duration: 1000,
+        status: "success",
+        duration: 2500,
         isClosable: true,
       });
       navigate("/admin");
-    } else {
+      } 
+    } catch (error) {
       toast({
-        title: "Erro de Autenticação",
-        description: response.message,
+        title: "Error ao efetuar o login",
+        description: error.message,
         status: "error",
-        duration: 5000,
+        duration: 2500,
         isClosable: true,
       });
     }

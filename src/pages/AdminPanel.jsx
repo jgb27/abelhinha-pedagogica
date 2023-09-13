@@ -34,7 +34,9 @@ const Admin = () => {
   const [productUrl, setProductUrl] = useState("");
   const [productTags, setProductTags] = useState("");
   const [productDescription, setProductDescription] = useState("");
-  const toast = useToast();
+  const toast = useToast({
+    position: 'top-right'
+  });
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -153,7 +155,7 @@ const Admin = () => {
             onChange={(e) => setProductUrl(e.target.value)}
           />
         </FormControl>
-        <FormControl mt={3}>
+        <FormControl isRequired mt={3}>
           <FormLabel>Tags (separadas por vírgula)</FormLabel>
           <Input
             type="text"
@@ -162,7 +164,7 @@ const Admin = () => {
             onChange={(e) => setProductTags(e.target.value)}
           />
         </FormControl>
-        <FormControl mt={3}>
+        <FormControl isRequired mt={3}>
           <FormLabel>Descrição</FormLabel>
           <Textarea
             placeholder="Descrição"
