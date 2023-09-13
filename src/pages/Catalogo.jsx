@@ -9,7 +9,7 @@ import { FindProduct } from "../connect";
 import LoadingSpinner from "../components/LoadingSpinner";
 
 const Catalogo = () => {
-  const image = "https://abelhinha-bucket.s3.sa-east-1.amazonaws.com/404.svg" || "/assets/404.svg"
+  const image = "https://abelhinha-bucket.s3.sa-east-1.amazonaws.com/logo.svg" || "/assets/404.svg"
   const { products } = useAppContext();
   const { colorMode } = useColorMode();
   const [loading, setLoading] = useState(true);
