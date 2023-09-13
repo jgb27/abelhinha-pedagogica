@@ -53,7 +53,7 @@ function Details() {
             textAlign="center"
           >
             <Image
-              src={product.imageUrl}
+              src={product.image_url}
               alt={product.name}
               objectFit="cover"
               borderRadius="0.5rem"
