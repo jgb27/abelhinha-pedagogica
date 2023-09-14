@@ -5,9 +5,9 @@ import { motion } from "framer-motion";
 import { useAppContext } from "../../AppProvider";
 import { FindProduct } from "../../connect";
 import LoadingSpinner from "../LoadingSpinner";
-import ProductList from "../ProductListDashboard";
+import ProductList from "./ProductList";
 
-const AllProductsAdmin = () => {
+const ListAllProducts = () => {
   const { products } = useAppContext();
   const { colorMode } = useColorMode();
   const [loading, setLoading] = useState(true);
@@ -16,6 +16,7 @@ const AllProductsAdmin = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchOption, setSearchOption] = useState('name');
   const productsPerPage = 6;
+
   const toast = useToast({
     position: "top-right"
   });
@@ -178,7 +179,7 @@ const AllProductsAdmin = () => {
           >
             {
               ProductForList.length > 0 ?
-                <ProductList products={ProductForList} />
+                <ProductList />
                 :
                 <NotFound
                   title='Não há produtos cadastrados'
@@ -193,4 +194,4 @@ const AllProductsAdmin = () => {
   );
 };
 
-export default AllProductsAdmin;
+export default ListAllProducts;

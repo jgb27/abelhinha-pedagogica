@@ -14,7 +14,7 @@ function Login() {
   const { colorMode } = useColorMode();
 
   const toast = useToast({
-    position: 'top-right',
+    position: 'bottom-right',
   });
 
   const handleInputChange = (e) => {
@@ -24,22 +24,23 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  try{
-    const response = await AccessPage(formData);
+    try {
+      const response = await AccessPage(formData);
+      console.log(response)
 
-    console.log(response)
+      if (response.token) {
+        localStorage.setItem("token", response.token)
+        toast({
+          title: "Login efetuado com sucesso",
+          description: response.message,
+          status: "success",
+          duration: 2500,
+          isClosable: true,
+        });
 
-    if (response.token) {
-      localStorage.setItem("token", response.token)
-      toast({
-        title: "Login efetuado com sucesso",
-        description: response.message,
-        status: "success",
-        duration: 2500,
-        isClosable: true,
-      });
-      navigate("/admin");
-      } 
+        setFormData({ username: '', password: '' })
+        navigate(response.role == 'admin' ? '/admin' : '/user');
+      }
     } catch (error) {
       toast({
         title: "Error ao efetuar o login",
@@ -48,6 +49,9 @@ function Login() {
         duration: 2500,
         isClosable: true,
       });
+
+      const value = error.label;
+      setFormData({ [value]: '' });
     }
   };
 

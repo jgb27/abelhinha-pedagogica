@@ -1,11 +1,12 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { GetAllProduct } from "./connect";
+import { GetAllProduct, GetAllUsers } from "./connect";
 
 const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
   const [productFields, setProductFields] = useState([]);
-  const [page, setPage] = useState('Produtos');
+  const [page, setPage] = useState('');
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,7 +25,7 @@ export const AppProvider = ({ children }) => {
     products: productFields,
     setProducts: setProductFields,
     page: page,
-    setPage: setPage
+    setPage: setPage,
   };
 
   return (

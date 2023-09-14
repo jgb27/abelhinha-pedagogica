@@ -1,6 +1,5 @@
 import {
   FiMenu,
-  FiBell,
   FiChevronDown,
 } from 'react-icons/fi'
 
