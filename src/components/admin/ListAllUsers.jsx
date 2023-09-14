@@ -19,7 +19,7 @@ const ListAllUsers = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { users } = await GetAllUsers();
+        const users = await GetAllUsers();
         console.log(users)
         setUsersFields(users)
       } catch (error) {

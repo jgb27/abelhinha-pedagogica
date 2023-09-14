@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Catalogo from './pages/Catalogo'
 import Contato from './pages/Contato'
 import AdminPanel from './pages/AdminPanel'
+import UserPanel from './pages/UserPanel'
 import Details from './pages/Details'
 import Login from './pages/Login';
 import NotFound from './pages/NotFound';
@@ -14,7 +15,7 @@ const App = () => {
       <Route path='/' element={<Home />} />
       <Route path='/catalogo' element={<Catalogo />} />
       <Route path='/admin' element={<AdminPanel />} />
-      <Route path='/user' element={<h1>User Pag</h1>} />
+      <Route path='/user' element={<UserPanel />} />
       <Route path='/contato' element={<Contato />} />
       <Route path='/login' element={<Login />} />
       <Route path='/details/:id' element={<Details />} />

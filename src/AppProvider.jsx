@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { GetAllProduct, GetAllUsers } from "./connect";
+import { GetAllProduct } from "./connect";
 
 const AppContext = createContext();
 

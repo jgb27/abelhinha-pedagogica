@@ -62,7 +62,7 @@ function Login() {
         p={6}
         rounded="lg"
         shadow="md"
-        maxW="md"
+        maxW="sm"
         mx="auto"
       >
         <VStack spacing={4}>
@@ -70,13 +70,11 @@ function Login() {
           <Heading as="h1" fontSize="1.5rem" textAlign="center">
             Abelhinha Pedagógica
           </Heading>
-          <Text fontSize="sm" color="gray.500" textAlign="center">
-            Acesso administrativo
-          </Text>
           <form onSubmit={handleSubmit} mt={4} width="100%">
             <FormControl>
-              <FormLabel htmlFor="username">Username</FormLabel>
+              <FormLabel textAlign='center' htmlFor="username">Username</FormLabel>
               <Input
+                textAlign='center'
                 type="text"
                 id="username"
                 name="username"
@@ -86,9 +84,10 @@ function Login() {
               />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="password">Password</FormLabel>
+              <FormLabel mt={4} textAlign='center' htmlFor="password">Password</FormLabel>
               <Input
                 type="password"
+                textAlign='center'
                 id="password"
                 name="password"
                 value={formData.password}
