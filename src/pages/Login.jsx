@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Heading, Button, FormControl, FormLabel, Input, VStack, Image, Box, Text, useColorMode, useToast } from '@chakra-ui/react';
+import { Heading, Button, FormControl, FormLabel, Input, VStack, Image, Box, useColorMode, useToast } from '@chakra-ui/react';
 import Layout from '../components/layout/article';
 import { AccessPage } from '../connect';
 import { useNavigate } from "react-router-dom";
