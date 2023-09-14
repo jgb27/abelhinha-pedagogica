@@ -74,7 +74,7 @@ function ProductList() {
   };
 
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 3;
+  const productsPerPage = 10;
 
   const totalPages = Math.ceil(products.length / productsPerPage);
 
@@ -97,10 +97,7 @@ function ProductList() {
   };
 
   return (
-    <Container maxW="container.lg">
-      <Flex justify="space-between" align="center" mb="1rem">
-        <Text fontSize="xl">Lista de Produtos</Text>
-      </Flex>
+    <Container maxW="full">
       <Table variant="striped" colorScheme="teal">
         <Thead>
           <Tr>

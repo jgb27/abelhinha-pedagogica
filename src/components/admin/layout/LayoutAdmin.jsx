@@ -1,6 +1,6 @@
 import {
   Box,
-  useColorModeValue,
+  useColorMode,
   Drawer,
   DrawerContent,
   useDisclosure,
@@ -11,9 +11,10 @@ import MobileNav from './Sidebar/MobileNav'
 
 const LayoutAdmin = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const { colorMode } = useColorMode();
 
   return (
-    <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
+    <Box minH="100vh" bg={colorMode === 'dark' ? 'gray.900' : 'gray.200'}>
       <SidebarContent onClose={() => onClose} display={{ base: 'none', md: 'block' }} />
       <Drawer
         isOpen={isOpen}

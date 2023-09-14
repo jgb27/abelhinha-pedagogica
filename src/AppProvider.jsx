@@ -5,7 +5,7 @@ const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
   const [productFields, setProductFields] = useState([]);
-  const [page, setPage] = useState('product');
+  const [page, setPage] = useState('Produtos');
 
   useEffect(() => {
     const fetchData = async () => {

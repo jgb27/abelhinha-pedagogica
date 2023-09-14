@@ -1,11 +1,18 @@
-import { Box, Flex, Image, Text, useColorModeValue, IconButton, Button } from "@chakra-ui/react"
+import { Box, Flex, Image, CloseButton, Text, useColorMode, IconButton, Button } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom"
-import { FiHome, FiPackage, FiUsers, FiXCircle } from "react-icons/fi"
-import { useEffect, useState } from "react"
+import { FiDatabase, FiPackage, FiUsers, FiXCircle } from "react-icons/fi"
 import { useAppContext } from "../../../../AppProvider"
 
 const NavItem = ({ icon, children, name }) => {
   const { page, setPage } = useAppContext();
+  const { colorMode } = useColorMode();
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
 
   return (
     <Box
@@ -20,18 +27,22 @@ const NavItem = ({ icon, children, name }) => {
         <Button
           cursor="pointer"
           bg='transparent'
-          color={page == name ? 'yellow.500' : 'white'}
+          color={page == name ? 'yellow.500' : colorMode === 'dark' ? 'white' : 'black'}
           _hover={{
             color: 'yellow.500',
           }}
           onClick={() => {
-            setPage(name)
+            if (name == 'Exit') {
+              handleLogout()
+            } else {
+              setPage(name)
+            }
           }}
         >
           {icon && (
             <IconButton
               mr="4"
-              color={page == name ? 'yellow.500' : 'white'}
+              color={page == name ? 'yellow.500' : colorMode === 'dark' ? 'white' : 'black'}
               _groupHover={{
                 color: 'yellow.500',
               }}
@@ -48,26 +59,21 @@ const NavItem = ({ icon, children, name }) => {
 }
 
 const SidebarContent = ({ onClose, ...rest }) => {
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/login");
-  };
+  const { colorMode } = useColorMode();
 
   const LinkItems = [
-    { name: 'Home', icon: <FiHome /> },
-    { name: 'Produtos', icon: <FiPackage /> },
+    { name: 'Produtos', icon: <FiDatabase /> },
+    { name: '+ Produtos', icon: <FiPackage /> },
     { name: 'Usuários', icon: <FiUsers /> },
-    { name: 'Exit', icon: <FiXCircle />, onPress: handleLogout }
+    { name: 'Exit', icon: <FiXCircle /> }
   ]
 
   return (
     <Box
       transition="3s ease"
-      bg={useColorModeValue('white', 'gray.900')}
+      bg={colorMode === 'dark' ? 'gray.900' : 'white'}
       borderRight="1px"
-      borderRightColor={useColorModeValue('gray.200', 'gray.700')}
+      borderRightColor={colorMode === 'dark' ? 'gray.700' : 'gray.700'}
       w={{ base: 'full', md: 60 }}
       pos="fixed"
       h="full"
@@ -85,13 +91,16 @@ const SidebarContent = ({ onClose, ...rest }) => {
         >
           Abelhinha Pedagógica
         </Text>
+        <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
-      {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon} name={link.name}>
-          {link.name}
-        </NavItem>
-      ))}
-    </Box>
+      {
+        LinkItems.map((link) => (
+          <NavItem key={link.name} icon={link.icon} name={link.name}>
+            {link.name}
+          </NavItem>
+        ))
+      }
+    </Box >
   )
 }
 

@@ -21,7 +21,7 @@ const Header = ({ title, image }) => {
       pt="1rem"
       pb="0.5rem"
     >
-      <ThemeToggle />
+      <ThemeToggle possition='absolute' spacing={0} />
       <Flex as="div" align="center" justify="center" gap="0.5rem">
         <Image src={image} alt="abelhinha" w="2rem" />
         <Heading as="h1" fontSize="1.5rem">

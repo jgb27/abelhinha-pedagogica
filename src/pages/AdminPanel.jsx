@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Forms from "../components/admin/Forms";
 import LayoutAdmin from "../components/admin/layout/LayoutAdmin";
 import { useAppContext } from "../AppProvider";
+import HomeAdmin from "../components/admin/HomeAdmin";
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -18,11 +19,11 @@ const Admin = () => {
 
   const CurrentPage = () => {
     switch (page) {
-      case 'Home':
-        return <h1>Home</h1>
       case 'Produtos':
-        return <h1>Product</h1>
-      case 'Usuários':
+        return <HomeAdmin />
+      case 'Usuário':
+        return <h1>User</h1>
+      case '+ Produtos':
         return <Forms />
       default:
         return <h1>{page}</h1>
