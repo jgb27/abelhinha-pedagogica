@@ -11,7 +11,7 @@ const ProductCard = ({ id, name, price, tags, imageUrl }) => {
   const tagBgColor = { light: 'gray.200', dark: 'gray.600' };
 
   const convertPrice = (price) => {
-    return price.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+    return price.toString().replace('.', ',')
   };
 
   const renderTags = () => {
@@ -62,7 +62,7 @@ const ProductCard = ({ id, name, price, tags, imageUrl }) => {
             {name}
           </Link>
           <Text fontSize={['1rem', '1rem', '1rem']} color={cardTextColor[colorMode]}>
-            {convertPrice(price)}
+            R$ {convertPrice(price)}
           </Text>
         </Flex>
         <Flex

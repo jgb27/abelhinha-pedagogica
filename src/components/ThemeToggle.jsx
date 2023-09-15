@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, useColorMode, Box } from '@chakra-ui/react';
 import { FaSun, FaMoon } from 'react-icons/fa'; // Importe os ícones de sol e lua
 
-function ThemeToggle() {
+function ThemeToggle({ spacing, possition }) {
   const { toggleColorMode } = useColorMode();
   const [currentMode, setCurrentMode] = useState('light');
 
@@ -17,7 +17,7 @@ function ThemeToggle() {
   };
 
   return (
-    <Box position="absolute" right={10} >
+    <Box position={possition} right={spacing} >
       <Button onClick={handleModeToggle}>
         {currentMode === 'light' ? <FaMoon /> : <FaSun />} {/* Ícones de sol e lua */}
       </Button>

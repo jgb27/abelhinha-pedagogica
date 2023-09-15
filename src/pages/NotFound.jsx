@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom'
 
 export const NotFound = ({ title, text, isRedirect }) => {
 
-  const { copy, toRedirect } = isRedirect;
-
   return (
     <Box textAlign="center">
       <Text fontSize="6xl" fontWeight="bold">
@@ -21,9 +19,9 @@ export const NotFound = ({ title, text, isRedirect }) => {
         isRedirect ?
           <>
             <Text fontSize='lg' color='gray.500' mb={8}>
-              {copy}
+              {isRedirect.copy}
             </Text>
-            <Link to={`/${toRedirect}`}>
+            <Link to={`/${isRedirect.toRedirect}`}>
               <Button colorScheme='teal'>Acessar</Button>
             </Link>
           </> :

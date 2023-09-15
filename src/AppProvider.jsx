@@ -5,6 +5,8 @@ const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
   const [productFields, setProductFields] = useState([]);
+  const [page, setPage] = useState('');
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,6 +24,8 @@ export const AppProvider = ({ children }) => {
   const appContextValue = {
     products: productFields,
     setProducts: setProductFields,
+    page: page,
+    setPage: setPage,
   };
 
   return (

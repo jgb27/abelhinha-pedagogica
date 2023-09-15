@@ -21,7 +21,7 @@ const Header = ({ title, image }) => {
       pt="1rem"
       pb="0.5rem"
     >
-      <ThemeToggle />
+      <ThemeToggle possition='absolute' spacing={[3, 8]} />
       <Flex as="div" align="center" justify="center" gap="0.5rem">
         <Image src={image} alt="abelhinha" w="2rem" />
         <Heading as="h1" fontSize="1.5rem">
@@ -39,7 +39,7 @@ const Header = ({ title, image }) => {
         <NavLink to="/">Home</NavLink>
         <NavLink to="/catalogo">Catalogo</NavLink>
         <NavLink to="/contato">Contato</NavLink>
-        <NavLink to="/admin">Access</NavLink>
+        <NavLink to="/login">Access</NavLink>
       </Box>
     </VStack>
   );

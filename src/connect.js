@@ -6,15 +6,63 @@ const getTokenFromLocalStorage = () => {
   return localStorage.getItem("token");
 };
 
-export const GetAllProduct = async () => {
+export const GetAllUsers = async () => {
   try {
-    const response = await axios.get(`${apiUrl}/product`);
+    const token = getTokenFromLocalStorage();
+    const response = await axios.get(`${apiUrl}/users`, {
+      headers: {
+        'Authorization': `${token}`
+      }
+    });
+
     return response.data;
   } catch (error) {
     console.error("Error fetching products:", error);
     throw error;
   }
 };
+
+export const GetUser = async () => {
+  try {
+    const token = getTokenFromLocalStorage();
+    const response = await axios.get(`${apiUrl}/user`, {
+      headers: {
+        'Authorization': `${token}`
+      }
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    throw error;
+  }
+};
+
+export const GetAllProduct = async () => {
+  try {
+    const response = await axios.get(`${apiUrl}/products`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    throw error;
+  }
+};
+
+export const GetProductsByUser = async () => {
+  try {
+    const token = getTokenFromLocalStorage();
+
+    const response = await axios.get(`${apiUrl}/product`, {
+      headers: {
+        'Authorization': `${token}`
+      }
+    })
+
+    return response.data;
+  } catch (error) {
+    console.log('Error fetching products: ')
+  }
+}
 
 export const AddProduct = async (product) => {
   try {
@@ -59,10 +107,27 @@ export const DeleteProduct = async (productId) => {
   }
 };
 
+export const DeleteUser = async (userId) => {
+  try {
+    const token = getTokenFromLocalStorage();
+
+    const headers = {
+      Authorization: `${token}`,
+    };
+
+    const response = await axios.delete(`${apiUrl}/users/${userId}`, { headers });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting product:", error);
+    throw error;
+  }
+}
+
 export const AccessPage = async (user) => {
   try {
     const response = await axios.post(`${apiUrl}/login`, {
-      name: user.username,
+      username: user.username,
       password: user.password
     })
 

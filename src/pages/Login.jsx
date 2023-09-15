@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Heading, Button, FormControl, FormLabel, Input, VStack, Image, Box, Text, useColorMode, useToast } from '@chakra-ui/react';
+import { Heading, Button, FormControl, FormLabel, Input, VStack, Image, Box, useColorMode, useToast } from '@chakra-ui/react';
 import Layout from '../components/layout/article';
 import { AccessPage } from '../connect';
 import { useNavigate } from "react-router-dom";
@@ -14,7 +14,7 @@ function Login() {
   const { colorMode } = useColorMode();
 
   const toast = useToast({
-    position: 'top-right',
+    position: 'bottom-right',
   });
 
   const handleInputChange = (e) => {
@@ -24,22 +24,22 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  try{
-    const response = await AccessPage(formData);
+    try {
+      const response = await AccessPage(formData);
 
-    console.log(response)
+      if (response.token) {
+        localStorage.setItem("token", response.token)
+        toast({
+          title: "Login efetuado com sucesso",
+          description: response.message,
+          status: "success",
+          duration: 2500,
+          isClosable: true,
+        });
 
-    if (response.token) {
-      localStorage.setItem("token", response.token)
-      toast({
-        title: "Login efetuado com sucesso",
-        description: response.message,
-        status: "success",
-        duration: 2500,
-        isClosable: true,
-      });
-      navigate("/admin");
-      } 
+        setFormData({ username: '', password: '' })
+        navigate(response.role == 'admin' ? '/admin' : '/user');
+      }
     } catch (error) {
       toast({
         title: "Error ao efetuar o login",
@@ -48,6 +48,9 @@ function Login() {
         duration: 2500,
         isClosable: true,
       });
+
+      const value = error.label;
+      setFormData({ [value]: '' });
     }
   };
 
@@ -58,7 +61,7 @@ function Login() {
         p={6}
         rounded="lg"
         shadow="md"
-        maxW="md"
+        maxW="sm"
         mx="auto"
       >
         <VStack spacing={4}>
@@ -66,13 +69,11 @@ function Login() {
           <Heading as="h1" fontSize="1.5rem" textAlign="center">
             Abelhinha Pedagógica
           </Heading>
-          <Text fontSize="sm" color="gray.500" textAlign="center">
-            Acesso administrativo
-          </Text>
           <form onSubmit={handleSubmit} mt={4} width="100%">
             <FormControl>
-              <FormLabel htmlFor="username">Username</FormLabel>
+              <FormLabel textAlign='center' htmlFor="username">Username</FormLabel>
               <Input
+                textAlign='center'
                 type="text"
                 id="username"
                 name="username"
@@ -82,9 +83,10 @@ function Login() {
               />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="password">Password</FormLabel>
+              <FormLabel mt={4} textAlign='center' htmlFor="password">Password</FormLabel>
               <Input
                 type="password"
+                textAlign='center'
                 id="password"
                 name="password"
                 value={formData.password}
