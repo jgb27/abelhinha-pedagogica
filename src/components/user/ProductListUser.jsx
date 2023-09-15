@@ -16,8 +16,8 @@ import {
   Button,
   Image,
 } from "@chakra-ui/react";
-import { AiFillDelete } from "react-icons/ai";
-import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
+
+import { AttachmentIcon, DeleteIcon, DownloadIcon, TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 
 import { DeleteProduct, GetProductsByUser } from "../../connect";
 import DeleteConfirmationModal from "../DeleteConfirmationModal";
@@ -106,15 +106,22 @@ function ProductListUser() {
     }
   };
 
+  const getNamePdf = (productPdfUrl) => {
+    var parseUrl = productPdfUrl.split("/");
+    var filename = parseUrl[parseUrl.length - 1];
+    return decodeURIComponent(filename)
+  }
+
   return (
-    <Container maxW="full">
-      <Table variant="striped" colorScheme="teal">
+    <Container maxW="full" >
+      <Table variant="simple" colorScheme="whiteAlpha">
         <Thead>
           <Tr>
             <Th>Nome</Th>
             <Th>Preço</Th>
             <Th>Imagem</Th>
-            <Th>Ações</Th>
+            <Th>Expandir</Th>
+            <Th>Download</Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -129,31 +136,36 @@ function ProductListUser() {
                 <Td>
                   <Flex gap={2}>
                     <IconButton
-                      icon={<AiFillDelete />}
-                      onClick={() => handleRemoveClick(product._id)}
-                      aria-label={`Remover ${product.name}`}
-                      colorScheme="red"
-                    />
-                    <IconButton
-                      icon={expandedProduct === product._id ? <ChevronUpIcon /> : <ChevronDownIcon />}
+                      icon={expandedProduct === product._id ? <TriangleUpIcon color='green.600' /> : <TriangleDownIcon color='red.300' />}
                       onClick={() => setExpandedProduct(expandedProduct === product._id ? null : product._id)}
                       aria-label={`Expandir ${product.name}`}
                     />
                   </Flex>
                 </Td>
+                <Td>
+                  {product.pdf_url && (<IconButton
+                    icon={<DownloadIcon color="green.300" />}
+                    onClick={() => {
+                      const href = product.pdf_url;
+                      window.open(href, '_blank')
+                    }}
+                    aria-label={`Download ${product.name}`}
+                  />)}
+                </Td>
               </Tr>
               <Tr>
-                <Td colSpan={4}>
+                <Td colSpan={5} border='none'>
                   <Collapse in={expandedProduct === product._id}>
-                    <Box p={4} bg="transparent" borderRadius="md">
-                      <Text fontSize="lg" fontWeight="bold">
-                        Descrição do Produto:
+                    <Box p={4} bg="transparent" borderRadius="none" border='none'>
+                      <Text fontSize="lg" fontWeight="light">
+                        <strong>Descrição do Produto:</strong> {product.description}
                       </Text>
-                      <Text fontWeight="light">{product.description}</Text>
-                      <Text mt={4} fontSize="lg" fontWeight="bold">
-                        Tags:
+                      <Text mt={4} fontSize="lg" fontWeight="light">
+                        <strong>Tags:</strong> {product.tags.join(", ")}
                       </Text>
-                      <Text fontWeight="light">{product.tags.join(", ")}</Text>
+                      <Text mt={4} fontSize="lg" fontWeight="light">
+                        <strong>Anexo:</strong> {getNamePdf(product.pdf_url)}
+                      </Text>
                     </Box>
                   </Collapse>
                 </Td>
@@ -161,7 +173,7 @@ function ProductListUser() {
             </React.Fragment>
           ))}
         </Tbody>
-      </Table>
+      </Table >
       <Flex justify="center" mt="1rem" mb="1rem" align="center">
         <Button
           onClick={handlePrevPage}
@@ -193,15 +205,17 @@ function ProductListUser() {
           Próxima
         </Button>
       </Flex>
-      {isDeleteModalOpen && (
-        <DeleteConfirmationModal
-          product={products.filter((product) => product._id === productIdToDelete)}
-          isOpen={isDeleteModalOpen}
-          onClose={() => setIsDeleteModalOpen(false)}
-          onConfirmDelete={handleConfirmDelete}
-        />
-      )}
-    </Container>
+      {
+        isDeleteModalOpen && (
+          <DeleteConfirmationModal
+            product={products.filter((product) => product._id === productIdToDelete)}
+            isOpen={isDeleteModalOpen}
+            onClose={() => setIsDeleteModalOpen(false)}
+            onConfirmDelete={handleConfirmDelete}
+          />
+        )
+      }
+    </Container >
   );
 }
 

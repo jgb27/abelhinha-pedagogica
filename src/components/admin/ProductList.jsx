@@ -94,15 +94,22 @@ function ProductList() {
     }
   };
 
+  const getNamePdf = (productPdfUrl) => {
+    var parseUrl = productPdfUrl.split("/");
+    var filename = parseUrl[parseUrl.length - 1];
+    return decodeURIComponent(filename)
+  }
+
   return (
     <Container maxW="full">
-      <Table variant="striped" colorScheme="teal">
+      <Table variant="simple" colorScheme="whiteAlpha">
         <Thead>
           <Tr>
             <Th>Nome</Th>
             <Th>Preço</Th>
             <Th>Imagem</Th>
-            <Th>Ações</Th>
+            <Th>Expandir</Th>
+            <Th>Download</Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -116,12 +123,6 @@ function ProductList() {
                 </Td>
                 <Td>
                   <Flex gap={2}>
-                    <IconButton
-                      icon={<DeleteIcon />}
-                      onClick={() => handleRemoveClick(product._id)}
-                      aria-label={`Remover ${product.name}`}
-                      colorScheme="red"
-                    />
                     {product.pdf_url && (<IconButton
                       icon={<AttachmentIcon />}
                       onClick={() => {
@@ -137,19 +138,28 @@ function ProductList() {
                     />
                   </Flex>
                 </Td>
+                <Td>
+                  <IconButton
+                    icon={<DeleteIcon />}
+                    onClick={() => handleRemoveClick(product._id)}
+                    aria-label={`Remover ${product.name}`}
+                    colorScheme="red"
+                  />
+                </Td>
               </Tr>
               <Tr>
-                <Td colSpan={4}>
+                <Td colSpan={5} border='none'>
                   <Collapse in={expandedProduct === product._id}>
-                    <Box p={4} bg="transparent" borderRadius="md">
-                      <Text fontSize="lg" fontWeight="bold">
-                        Descrição do Produto:
+                    <Box p={4} bg="transparent" borderRadius="none" border='none'>
+                      <Text fontSize="lg" fontWeight="light">
+                        <strong>Descrição do Produto:</strong> {product.description}
                       </Text>
-                      <Text fontWeight="light">{product.description}</Text>
-                      <Text mt={4} fontSize="lg" fontWeight="bold">
-                        Tags:
+                      <Text mt={4} fontSize="lg" fontWeight="light">
+                        <strong>Tags:</strong> {product.tags.join(", ")}
                       </Text>
-                      <Text fontWeight="light">{product.tags.join(", ")}</Text>
+                      <Text mt={4} fontSize="lg" fontWeight="light">
+                        <strong>Anexo:</strong> {getNamePdf(product.pdf_url)}
+                      </Text>
                     </Box>
                   </Collapse>
                 </Td>
