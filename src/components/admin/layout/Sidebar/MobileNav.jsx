@@ -69,7 +69,7 @@ const MobileNav = ({ onOpen, username, role, ...rest }) => {
                   spacing="1px"
                   ml="2">
                   <Text fontSize="sm">
-                    {username.split(' ').slice(0, 2).join(' ')}
+                    {username}
                   </Text>
                   <Text fontSize="xs" color="gray.600">
                     {role}
