@@ -40,13 +40,29 @@ export const GetUser = async () => {
 
 export const GetAllProduct = async () => {
   try {
-    const response = await axios.get(`${apiUrl}/product`);
+    const response = await axios.get(`${apiUrl}/products`);
     return response.data;
   } catch (error) {
     console.error("Error fetching products:", error);
     throw error;
   }
 };
+
+export const GetProductsByUser = async () => {
+  try {
+    const token = getTokenFromLocalStorage();
+
+    const response = await axios.get(`${apiUrl}/product`, {
+      headers: {
+        'Authorization': `${token}`
+      }
+    })
+
+    return response.data;
+  } catch (error) {
+    console.log('Error fetching products: ')
+  }
+}
 
 export const AddProduct = async (product) => {
   try {

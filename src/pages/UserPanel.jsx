@@ -1,5 +1,6 @@
 import LayoutUser from "../components/user/layout/LayoutUser";
 import { useAppContext } from "../AppProvider";
+import ProductListUser from "../components/user/ProductListUser";
 
 const userPanel = () => {
   const { page } = useAppContext();
@@ -7,7 +8,7 @@ const userPanel = () => {
   const CurrentPage = () => {
     switch (page) {
       case 'Produtos':
-        return <h1>Produtos</h1>
+        return <ProductListUser />
       case 'Minha Conta':
         return <h1>Minha Conta</h1>
       default:
@@ -17,7 +18,7 @@ const userPanel = () => {
 
   return (
     <LayoutUser>
-      {CurrentPage}
+      {CurrentPage()}
     </LayoutUser>
   )
 }

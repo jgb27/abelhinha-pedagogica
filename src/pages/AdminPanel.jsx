@@ -16,6 +16,8 @@ const Admin = () => {
         return <ListAllUsers />
       case '+ Produtos':
         return <Forms />
+      case '':
+        return <></>
       default:
         return <h1>Not found: {page}</h1>
     }

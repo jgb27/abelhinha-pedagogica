@@ -20,7 +20,6 @@ const ListAllUsers = () => {
     const fetchData = async () => {
       try {
         const users = await GetAllUsers();
-        console.log(users)
         setUsersFields(users)
       } catch (error) {
         console.error("Error fetching products:", error);

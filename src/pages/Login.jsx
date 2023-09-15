@@ -26,7 +26,6 @@ function Login() {
     e.preventDefault();
     try {
       const response = await AccessPage(formData);
-      console.log(response)
 
       if (response.token) {
         localStorage.setItem("token", response.token)

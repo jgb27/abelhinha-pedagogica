@@ -18,7 +18,7 @@ import DeleteConfirmationModal from "../DeleteConfirmationModal";
 function UserList({ users }) {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [userIdToDelete, setUserIdToDelete] = useState(null);
-  console.log(users)
+
   const toast = useToast({
     position: "bottom-right",
   });

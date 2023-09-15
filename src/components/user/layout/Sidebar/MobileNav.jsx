@@ -68,7 +68,9 @@ const MobileNav = ({ onOpen, username, role, ...rest }) => {
                   alignItems="flex-start"
                   spacing="1px"
                   ml="2">
-                  <Text fontSize="sm">{username}</Text>
+                  <Text fontSize="sm">
+                    {username}
+                  </Text>
                   <Text fontSize="xs" color="gray.600">
                     {role}
                   </Text>
