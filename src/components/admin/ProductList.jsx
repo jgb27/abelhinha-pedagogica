@@ -16,8 +16,8 @@ import {
   Button,
   Image,
 } from "@chakra-ui/react";
-import { AiFillDelete } from "react-icons/ai";
-import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
+
+import { AttachmentIcon, DeleteIcon, TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 
 import { useAppContext } from "../../AppProvider";
 import { DeleteProduct } from "../../connect";
@@ -117,13 +117,21 @@ function ProductList() {
                 <Td>
                   <Flex gap={2}>
                     <IconButton
-                      icon={<AiFillDelete />}
+                      icon={<DeleteIcon />}
                       onClick={() => handleRemoveClick(product._id)}
                       aria-label={`Remover ${product.name}`}
                       colorScheme="red"
                     />
+                    {product.pdf_url && (<IconButton
+                      icon={<AttachmentIcon />}
+                      onClick={() => {
+                        const href = product.pdf_url;
+                        window.open(href, '_blank')
+                      }}
+                      aria-label={`Download ${product.name}`}
+                    />)}
                     <IconButton
-                      icon={expandedProduct === product._id ? <ChevronUpIcon /> : <ChevronDownIcon />}
+                      icon={expandedProduct === product._id ? <TriangleUpIcon /> : <TriangleDownIcon />}
                       onClick={() => setExpandedProduct(expandedProduct === product._id ? null : product._id)}
                       aria-label={`Expandir ${product.name}`}
                     />
