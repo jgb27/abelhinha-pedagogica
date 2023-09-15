@@ -75,6 +75,7 @@ export const AddProduct = async (product) => {
     formData.append('url', product.url);
     formData.append('description', product.description);
     formData.append('image', product.imagem_url);
+    formData.append('pdf', product.pdf_url);
 
     const response = await axios.post(`${apiUrl}/product`, formData, {
       headers: {

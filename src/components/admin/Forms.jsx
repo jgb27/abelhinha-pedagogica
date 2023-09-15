@@ -9,7 +9,9 @@ import {
   FormLabel,
   Text,
   Image,
-  useColorMode
+  useColorMode,
+  Flex,
+  Container
 } from "@chakra-ui/react";
 import { useDropzone } from "react-dropzone";
 import { motion } from "framer-motion";
@@ -21,6 +23,7 @@ const Forms = () => {
   const { products, setProducts } = useAppContext();
   const [productName, setProductName] = useState("");
   const [productImage, setProductImage] = useState(null);
+  const [productPdf, setProductPdf] = useState(null);
   const [productPrice, setProductPrice] = useState(0);
   const [productUrl, setProductUrl] = useState("");
   const [productTags, setProductTags] = useState("");
@@ -47,6 +50,7 @@ const Forms = () => {
     const newProduct = {
       name: productName,
       imagem_url: productImage,
+      pdf_url: productPdf,
       price: productPrice,
       url: productUrl,
       tags: productTags,
@@ -62,6 +66,7 @@ const Forms = () => {
 
       setProductName("");
       setProductImage(null);
+      setProductPdf(null);
       setProductPrice(0);
       setProductUrl("");
       setProductTags("");
@@ -86,17 +91,84 @@ const Forms = () => {
     }
   };
 
-  const onDrop = (acceptedFiles) => {
-    if (acceptedFiles.length > 0) {
-      setProductImage(acceptedFiles[0]);
-    }
-  };
 
-  const { getRootProps, getInputProps } = useDropzone({
-    onDrop,
-    accept: "image/*",
-    multiple: false,
-  });
+  const ImageDropZone = () => {
+
+    const onDrop = (acceptedFiles) => {
+      if (acceptedFiles.length > 0) {
+        setProductImage(acceptedFiles[0]);
+      }
+    };
+
+    const { getRootProps, getInputProps } = useDropzone({
+      onDrop,
+      accept: "image/*",
+      multiple: false,
+    });
+
+    return (
+      <FormControl isRequired mt={3}>
+        <FormLabel>Imagem do Produto</FormLabel>
+        <Box
+          {...getRootProps()}
+          border="2px dashed #e2e8f0"
+          borderRadius="md"
+          p={4}
+          textAlign="center"
+          cursor="pointer"
+        >
+          <input {...getInputProps()} />
+          <Text>Arraste ou Procure uma imagem aqui</Text>
+        </Box>
+        {productImage && (
+          <Box mt={3}>
+            <Text>Imagem selecionada:</Text>
+            <Image src={URL.createObjectURL(productImage)} maxH="150px" />
+          </Box>
+        )}
+      </FormControl>
+    )
+  }
+
+  const PdfDropZone = () => {
+
+    const onDrop = (acceptedFiles) => {
+      if (acceptedFiles.length > 0) {
+        setProductPdf(acceptedFiles[0]);
+      }
+    };
+
+    const { getRootProps, getInputProps } = useDropzone({
+      onDrop,
+      accept: "application/pdf",
+      multiple: false,
+    });
+
+    return (
+      <FormControl isRequired mt={3}>
+        <FormLabel>PDF do producto</FormLabel>
+        <Box
+          {...getRootProps()}
+          border="2px dashed #e2e8f0"
+          borderRadius="md"
+          p={4}
+          textAlign="center"
+          cursor="pointer"
+        >
+          <input {...getInputProps()} />
+          <Text>Arraste ou Procure um pdf aqui</Text>
+        </Box>
+        {productPdf && (
+          <Box mt={3}>
+            <Text color='green.300'>Arquivo selecionado: {productPdf.name}</Text>
+          </Box>
+        )}
+
+      </FormControl>
+    )
+  }
+
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -104,83 +176,69 @@ const Forms = () => {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <Text
-        fontSize="2xl"
-        fontWeight="bold"
-        textAlign="center"
-        color={colorMode === "dark" ? "white" : "black"}
-      >
-        Casdastrando produto
-      </Text>
-      <form onSubmit={handleSubmit}>
-        <FormControl isRequired mt={3}>
-          <FormLabel>Nome do Produto</FormLabel>
-          <Input
-            type="text"
-            placeholder="Nome do Produto"
-            value={productName}
-            onChange={(e) => setProductName(e.target.value)}
-          />
-        </FormControl>
-        <FormControl isRequired mt={3}>
-          <FormLabel>Imagem do Produto</FormLabel>
-          <Box
-            {...getRootProps()}
-            border="2px dashed #e2e8f0"
-            borderRadius="md"
-            p={4}
-            textAlign="center"
-            cursor="pointer"
-          >
-            <input {...getInputProps()} />
-            <Text>Arraste ou Procure uma imagem aqui</Text>
-          </Box>
-          {productImage && (
-            <Box mt={3}>
-              <Text>Imagem selecionada:</Text>
-              <Image src={URL.createObjectURL(productImage)} maxH="150px" />
-            </Box>
-          )}
-        </FormControl>
-        <FormControl isRequired mt={3}>
-          <FormLabel>Preço</FormLabel>
-          <Input
-            type="number"
-            placeholder="Preço"
-            value={productPrice}
-            onChange={(e) => setProductPrice(parseFloat(e.target.value))}
-          />
-        </FormControl>
-        <FormControl isRequired mt={3}>
-          <FormLabel>URL do Produto</FormLabel>
-          <Input
-            type="url"
-            placeholder="URL do Produto"
-            value={productUrl}
-            onChange={(e) => setProductUrl(e.target.value)}
-          />
-        </FormControl>
-        <FormControl isRequired mt={3}>
-          <FormLabel>Tags (separadas por vírgula)</FormLabel>
-          <Input
-            type="text"
-            placeholder="Tags (separadas por vírgula)"
-            value={productTags}
-            onChange={(e) => setProductTags(e.target.value)}
-          />
-        </FormControl>
-        <FormControl isRequired mt={3}>
-          <FormLabel>Descrição</FormLabel>
-          <Textarea
-            placeholder="Descrição"
-            value={productDescription}
-            onChange={(e) => setProductDescription(e.target.value)}
-          />
-        </FormControl>
-        <Button type="submit" colorScheme="teal" mt={3}>
-          Adicionar Produto
-        </Button>
-      </form>
+      <Container maxW='container.lg' >
+        <Text
+          fontSize="2xl"
+          fontWeight="bold"
+          textAlign="center"
+          color={colorMode === "dark" ? "white" : "black"}
+        >
+          Casdastrando produto
+        </Text>
+        <form onSubmit={handleSubmit}>
+          <FormControl isRequired mt={3}>
+            <FormLabel>Nome do Produto</FormLabel>
+            <Input
+              type="text"
+              placeholder="Nome do Produto"
+              value={productName}
+              onChange={(e) => setProductName(e.target.value)}
+            />
+          </FormControl>
+          <Flex gap={16}>
+            <ImageDropZone />
+            <PdfDropZone />
+          </Flex>
+          <FormControl isRequired mt={3}>
+            <FormLabel>Preço</FormLabel>
+            <Input
+              type="number"
+              placeholder="Preço"
+              value={productPrice}
+              onChange={(e) => setProductPrice(parseFloat(e.target.value))}
+            />
+          </FormControl>
+          <FormControl isRequired mt={3}>
+            <FormLabel>URL do Produto</FormLabel>
+            <Input
+              type="url"
+              placeholder="URL do Produto"
+              value={productUrl}
+              onChange={(e) => setProductUrl(e.target.value)}
+            />
+          </FormControl>
+          <FormControl isRequired mt={3}>
+            <FormLabel>Tags (separadas por vírgula)</FormLabel>
+            <Input
+              type="text"
+              placeholder="Tags (separadas por vírgula)"
+              value={productTags}
+              onChange={(e) => setProductTags(e.target.value)}
+            />
+          </FormControl>
+          <FormControl isRequired mt={3}>
+            <FormLabel>Descrição</FormLabel>
+            <Textarea
+              placeholder="Descrição"
+              value={productDescription}
+              onChange={(e) => setProductDescription(e.target.value)}
+            />
+          </FormControl>
+          <Button type="submit" colorScheme="teal" mt={3}>
+            Adicionar Produto
+          </Button>
+        </form>
+      </Container>
     </motion.div>
   );
 };
