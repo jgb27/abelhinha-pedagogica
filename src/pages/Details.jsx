@@ -1,96 +1,94 @@
 import {
-  HStack,
-  Text,
   Box,
   Image,
-  Link,
+  Heading,
+  Text,
   Button,
-  VStack,
+  Spacer,
+  Flex,
+  Badge,
+  useColorMode,
   Center,
-  useColorModeValue,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
 import { useParams } from "react-router-dom";
 import Layout from "../components/layout/article";
 import { useAppContext } from "../AppProvider";
 
-function Details() {
+const Details = () => {
   const { id } = useParams();
   const { products } = useAppContext();
+  const { colorMode } = useColorMode();
 
-  try {
-    const product = products.find((product) => product._id == id);
+  const product = products.find((product) => product._id == id);
 
-    if (!product) {
-      throw new Error("Product not found");
-    }
+  if (!product) {
+    throw new Error("Product not found");
+  }
 
-    const textColor = useColorModeValue("black", "white"); // Define a cor do texto com base no modo de cores
+  const textColor = colorMode == 'dark' ? 'white' : 'black'; // Define a cor do texto com base no modo de cores
 
-    const formatPrice = (price) => {
-      return parseFloat(price.toString().replace(".", ",")).toLocaleString(
-        "pt-BR",
-        {
-          style: "currency",
-          currency: "BRL",
-        }
-      );
-    };
+  const formatPrice = (price) => {
+    return parseFloat(price.toString().replace(".", ",")).toLocaleString(
+      "pt-BR",
+      {
+        style: "currency",
+        currency: "BRL",
+      }
+    );
+  };
 
-    return (
-      <Layout title={product.name}>
-        <Center>
-          <Text fontSize="3xl" fontWeight="bold" mb={4} color={textColor}>
-            {product.name} - {formatPrice(product.price)}
-          </Text>
-        </Center>
-        <HStack spacing={8} justifyContent="center">
-          <Box
-            bg={useColorModeValue("white", "gray.800")} // Cor de fundo dependente do modo de cores
-            borderRadius="0.5rem"
-            boxShadow="0 0 2rem rgba(0, 0, 0, 0.4)"
-            p="1rem"
-            textAlign="center"
+  return (
+    <Layout title={product.name}>
+      <Center mt='20%'>
+        <Box
+          borderWidth="0px"
+          borderRadius="lg"
+          overflow="hidden"
+          boxShadow="lg"
+        >
+          <Flex
+            alignItems='center'
+            justifyContent='center'
           >
             <Image
               src={product.image_url}
               alt={product.name}
-              objectFit="cover"
-              borderRadius="0.5rem"
-              maxW="100%"
-              maxHeight="300px"
+              borderRadius="md"
+              objectFit="contain"
+              height="400px"
+              width="100%"
             />
-          </Box>
-        </HStack>
-        <VStack mt={8} spacing={4} align="center">
-          <Button colorScheme="blue" size="lg">
-            <Link
-              color="white"
-              as="a"
-              target="_blank"
-              fontSize={["1rem", "1.5rem", "1.5rem"]}
-              fontWeight="bold"
-              href={product.url}
-            >
-              Comprar Agora
-            </Link>
-          </Button>
-          <Box width="100%" maxWidth="600px">
-            <Text fontSize="lg" fontWeight="bold" color={textColor}>
-              Descrição do Produto
-            </Text>
-            <Text fontSize="lg" color={textColor}>
-              {product.description}
-            </Text>
-          </Box>
-        </VStack>
-      </Layout>
-    );
-  } catch (err) {
-    console.error(err);
-    Navigate({ to: "/" });
-    return null;
-  }
+            <Box mr='5%'>
+              <Flex justifyContent="space-between">
+                <Heading fontSize="2xl">{product.name}</Heading>
+                <Badge colorScheme="green" variant="solid">
+                  Em Estoque
+                </Badge>
+              </Flex>
+              <Text mt={2} color={textColor} fontSize="lg" fontWeight="semibold">
+                {formatPrice(product.price)}
+              </Text>
+              <Text mt={2} fontSize="md" color={textColor}  >
+                {product.description}
+              </Text>
+              <Spacer />
+              <Button
+                colorScheme="teal"
+                size="lg"
+                width="100%"
+                mt={4}
+                fontSize="lg"
+                fontWeight="bold"
+              >
+                Comprar agora
+              </Button>
+            </Box>
+          </Flex>
+        </Box>
+      </Center>
+    </Layout >
+  );
 }
 
 export default Details;
