@@ -33,10 +33,7 @@ function ProductList() {
   });
 
   const formatPrice = (price) => {
-    return parseFloat(price.toString().replace(".", ",")).toLocaleString("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    });
+    return price.toString().replace(".", ",")
   };
 
   const handleRemoveClick = (productId) => {
@@ -113,7 +110,7 @@ function ProductList() {
             <React.Fragment key={product._id}>
               <Tr>
                 <Td>{product.name}</Td>
-                <Td>{formatPrice(product.price)}</Td>
+                <Td>R$ {formatPrice(product.price)}</Td>
                 <Td>
                   <Image src={product.image_url} alt={product.name} boxSize="50px" />
                 </Td>
