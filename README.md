@@ -4,7 +4,7 @@
 
 Bem-vindo ao repositório da Abelhinha Pedagógica! Este é um site desenvolvido em ReactJS e Chakra UI para venda de ebooks e atividades pedagógicas.
 
-[site](https://abelhinhapedagogica.vercel.app/)
+[site](https://abelhinhapedagogica.com.br/)
 
 ## :book: Visão Geral
 
