@@ -10,7 +10,7 @@ const NavItem = ({ icon, children, name }) => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    navigate("/login");
+    navigate("/");
   };
 
   return (

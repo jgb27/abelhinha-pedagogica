@@ -39,7 +39,12 @@ const Details = () => {
       }
     }
 
-    verify()
+    if (localStorage.getItem('token')) {
+      verify()
+    } else {
+      setIsDisabled(false)
+    }
+
   })
 
   if (!product) {

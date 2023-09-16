@@ -14,25 +14,30 @@ import ThemeToggle from "../ThemeToggle";
 
 const UserInfo = () => {
   const token = localStorage.getItem('token')
-  return (
-    token
-      ? (<HStack spacing={{ base: '0', md: '6' }} position='absolute' left={[3, 8]} >
-        <Flex alignItems={'center'} textAlign='center'>
-          <VStack
-            display={{ base: 'none', md: 'flex' }}
-            alignItems="flex-start"
-            spacing="1px"
-            ml="2">
-            <Text fontSize="sm">
-              Logado
-            </Text>
-            <Text fontSize="xs" color="gray.600">
-              não logado
-            </Text>
-          </VStack>
-        </Flex>
-      </HStack>)
-      :
+  if (token) {
+    const role = localStorage.getItem('role')
+    return (
+      <Box position="absolute" left={[3, 8]}>
+        <NavLink to={role == 'admin' ? '/admin' : '/user'} textDecoration="none">
+          <Text
+            color="white"
+            bg="blue.500"
+            padding="8px 16px"
+            borderRadius="4px"
+            fontSize="18px"
+            fontWeight="bold"
+            _hover={{
+              bg: "green.400",
+              color: "white",
+            }}
+          >
+            Área do cliente
+          </Text>
+        </NavLink>
+      </Box>
+    )
+  } else {
+    return (
       <Box position="absolute" left={[3, 8]}>
         <NavLink to="/login" textDecoration="none">
           <Text
@@ -47,11 +52,12 @@ const UserInfo = () => {
               color: "white",
             }}
           >
-            Acesse sua conta
+            Acessa sua conta
           </Text>
         </NavLink>
       </Box>
-  )
+    )
+  }
 }
 
 const Header = ({ title, image }) => {
