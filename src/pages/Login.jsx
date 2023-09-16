@@ -1,16 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Heading, Button, FormControl, FormLabel, Input, VStack, Image, Box, useColorMode, useToast } from '@chakra-ui/react';
 import Layout from '../components/layout/article';
 import { AccessPage } from '../connect';
 import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      const role = localStorage.getItem('role')
+      navigate(role == 'admin' ? '/admin' : '/user');
+    }
+  })
+
   const [formData, setFormData] = useState({
     username: '',
     password: '',
   });
 
-  const navigate = useNavigate();
   const { colorMode } = useColorMode();
 
   const toast = useToast({
@@ -38,6 +46,7 @@ function Login() {
         });
 
         setFormData({ username: '', password: '' })
+        localStorage.setItem('role', response.role)
         navigate(response.role == 'admin' ? '/admin' : '/user');
       }
     } catch (error) {

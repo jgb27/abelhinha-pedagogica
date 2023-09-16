@@ -1,25 +1,18 @@
 import {
   FiMenu,
-  FiChevronDown,
 } from 'react-icons/fi'
 
 import {
   IconButton,
   Avatar,
-  Box,
   Flex,
   HStack,
   VStack,
   useColorMode,
   Text,
-  Menu,
-  MenuButton,
-  MenuDivider,
-  MenuItem,
-  MenuList,
 } from '@chakra-ui/react'
 
-import ThemeToogle from '../../../ThemeToggle'
+import ThemeToggle from '../../../ThemeToggle'
 
 const MobileNav = ({ onOpen, username, role, ...rest }) => {
   const { colorMode } = useColorMode();
@@ -54,41 +47,26 @@ const MobileNav = ({ onOpen, username, role, ...rest }) => {
       </Text>
 
       <HStack spacing={{ base: '0', md: '6' }}>
-        <ThemeToogle possition='relative' spacing={4} />
+        <ThemeToggle position='relative' spacing={4} />
         <Flex alignItems={'center'}>
-          <Menu>
-            <MenuButton py={2} transition="all 0.3s" _focus={{ boxShadow: 'none' }}>
-              <HStack>
-                <Avatar
-                  size={'sm'}
-                  src={'https://abelhinha-bucket.s3.sa-east-1.amazonaws.com/logo.svg'}
-                />
-                <VStack
-                  display={{ base: 'none', md: 'flex' }}
-                  alignItems="flex-start"
-                  spacing="1px"
-                  ml="2">
-                  <Text fontSize="sm">
-                    {username}
-                  </Text>
-                  <Text fontSize="xs" color="gray.600">
-                    {role}
-                  </Text>
-                </VStack>
-                <Box display={{ base: 'none', md: 'flex' }}>
-                  <FiChevronDown />
-                </Box>
-              </HStack>
-            </MenuButton>
-            <MenuList
-              borderColor={colorMode === 'dark' ? 'gray.900' : 'gray.200'}>
-              <MenuItem>Profile</MenuItem>
-              <MenuItem>Settings</MenuItem>
-              <MenuItem>Billing</MenuItem>
-              <MenuDivider />
-              <MenuItem>Sign out</MenuItem>
-            </MenuList>
-          </Menu>
+          <HStack>
+            <Avatar
+              size={'sm'}
+              src={'https://abelhinha-bucket.s3.sa-east-1.amazonaws.com/logo.svg'}
+            />
+            <VStack
+              display={{ base: 'none', md: 'flex' }}
+              alignItems="flex-start"
+              spacing="1px"
+              ml="2">
+              <Text fontSize="sm">
+                {username}
+              </Text>
+              <Text fontSize="xs" color="gray.600">
+                {role}
+              </Text>
+            </VStack>
+          </HStack>
         </Flex>
       </HStack>
     </Flex>

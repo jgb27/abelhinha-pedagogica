@@ -1,6 +1,6 @@
 import { Box, Flex, Image, CloseButton, Text, useColorMode, IconButton, Button } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom"
-import { FiPackage, FiUser, FiXCircle } from "react-icons/fi"
+import { FiPackage, FiUser, FiXCircle, FiShoppingCart } from "react-icons/fi"
 import { useAppContext } from "../../../../AppProvider"
 
 const NavItem = ({ icon, children, name }) => {
@@ -10,7 +10,7 @@ const NavItem = ({ icon, children, name }) => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    navigate("/login");
+    navigate("/");
   };
 
   return (
@@ -62,7 +62,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
 
   const LinkItems = [
     { name: 'Produtos', icon: <FiPackage /> },
-    { name: 'Minha Conta', icon: <FiUser /> },
+    { name: 'Loja', icon: <FiShoppingCart /> },
     { name: 'Exit', icon: <FiXCircle /> }
   ]
 

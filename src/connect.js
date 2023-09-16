@@ -72,7 +72,6 @@ export const AddProduct = async (product) => {
     formData.append('name', product.name);
     formData.append('price', product.price);
     formData.append('tags', product.tags);
-    formData.append('url', product.url);
     formData.append('description', product.description);
     formData.append('image', product.imagem_url);
     formData.append('pdf', product.pdf_url);
@@ -146,5 +145,30 @@ export const FindProduct = async ({ name, term }) => {
     const { message } = error.response.data
     console.error("Error find product:", message);
     throw `Error ${error.response.status}: ${message} `;
+  }
+}
+
+export const CreateOrder = async ({ productName, productId, productPrice }) => {
+  try {
+    const token = getTokenFromLocalStorage();
+
+    const headers = {
+      Authorization: `${token}`,
+    };
+
+    const response = await axios.post(`${apiUrl}/create-order`,
+      {
+        _id: productId,
+        name: productName,
+        price: productPrice
+      },
+      {
+        headers
+      });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting product:", error);
+    throw error;
   }
 }

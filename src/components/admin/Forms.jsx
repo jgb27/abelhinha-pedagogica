@@ -25,7 +25,6 @@ const Forms = () => {
   const [productImage, setProductImage] = useState(null);
   const [productPdf, setProductPdf] = useState(null);
   const [productPrice, setProductPrice] = useState(0);
-  const [productUrl, setProductUrl] = useState("");
   const [productTags, setProductTags] = useState("");
   const [productDescription, setProductDescription] = useState("");
 
@@ -36,7 +35,7 @@ const Forms = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!productName || !productImage || productPrice <= 0 || !productUrl) {
+    if (!productName || !productImage || productPrice <= 0) {
       toast({
         title: "Formulário Incompleto",
         description: "Por favor, preencha todos os campos obrigatórios.",
@@ -52,7 +51,7 @@ const Forms = () => {
       imagem_url: productImage,
       pdf_url: productPdf,
       price: productPrice,
-      url: productUrl,
+      url: "",
       tags: productTags,
       description: productDescription,
     };
@@ -68,7 +67,6 @@ const Forms = () => {
       setProductImage(null);
       setProductPdf(null);
       setProductPrice(0);
-      setProductUrl("");
       setProductTags("");
       setProductDescription("");
 
@@ -82,7 +80,7 @@ const Forms = () => {
 
     } catch (error) {
       toast({
-        title: 'Não foi possivel adicionar',
+        title: 'Não foi possível adicionar',
         description: `${error.response.data.message}`,
         status: "error",
         duration: 3000,
@@ -146,7 +144,7 @@ const Forms = () => {
 
     return (
       <FormControl isRequired mt={3}>
-        <FormLabel>PDF do producto</FormLabel>
+        <FormLabel>PDF do produto</FormLabel>
         <Box
           {...getRootProps()}
           border="2px dashed #e2e8f0"
@@ -182,7 +180,7 @@ const Forms = () => {
           textAlign="center"
           color={colorMode === "dark" ? "white" : "black"}
         >
-          Casdastrando produto
+          Cadastrando produto
         </Text>
         <form onSubmit={handleSubmit}>
           <FormControl isRequired mt={3}>
@@ -205,15 +203,6 @@ const Forms = () => {
               placeholder="Preço"
               value={productPrice}
               onChange={(e) => setProductPrice(parseFloat(e.target.value))}
-            />
-          </FormControl>
-          <FormControl isRequired mt={3}>
-            <FormLabel>URL do Produto</FormLabel>
-            <Input
-              type="url"
-              placeholder="URL do Produto"
-              value={productUrl}
-              onChange={(e) => setProductUrl(e.target.value)}
             />
           </FormControl>
           <FormControl isRequired mt={3}>
