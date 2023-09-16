@@ -11,14 +11,16 @@ import {
   Center,
 } from '@chakra-ui/react';
 
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Layout from "../components/layout/article";
 import { useAppContext } from "../AppProvider";
+import { CreateOrder } from '../connect';
 
 const Details = () => {
   const { id } = useParams();
   const { products } = useAppContext();
   const { colorMode } = useColorMode();
+  const navigate = useNavigate();
 
   const product = products.find((product) => product._id == id);
 
@@ -37,6 +39,20 @@ const Details = () => {
       }
     );
   };
+
+  const toBuy = async () => {
+    if (localStorage.getItem('token')) {
+      const { response } = await CreateOrder({
+        productId: product._id,
+        productName: product.name,
+        productPrice: product.price
+      });
+
+      window.open(response.checkout, '_blank');
+    } else {
+      navigate('/login')
+    }
+  }
 
   return (
     <Layout title={product.name}>
@@ -80,6 +96,7 @@ const Details = () => {
                 mt={4}
                 fontSize="lg"
                 fontWeight="bold"
+                onClick={toBuy}
               >
                 Comprar agora
               </Button>

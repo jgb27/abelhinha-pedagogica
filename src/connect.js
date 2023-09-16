@@ -148,3 +148,28 @@ export const FindProduct = async ({ name, term }) => {
     throw `Error ${error.response.status}: ${message} `;
   }
 }
+
+export const CreateOrder = async ({ productName, productId, productPrice }) => {
+  try {
+    const token = getTokenFromLocalStorage();
+
+    const headers = {
+      Authorization: `${token}`,
+    };
+
+    const response = await axios.post(`${apiUrl}/create-order`,
+      {
+        _id: productId,
+        name: productName,
+        price: productPrice
+      },
+      {
+        headers
+      });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting product:", error);
+    throw error;
+  }
+}
