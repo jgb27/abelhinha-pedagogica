@@ -35,7 +35,7 @@ const Forms = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!productName || !productImage || productPrice <= 0 || !productUrl) {
+    if (!productName || !productImage || productPrice <= 0) {
       toast({
         title: "Formulário Incompleto",
         description: "Por favor, preencha todos os campos obrigatórios.",
