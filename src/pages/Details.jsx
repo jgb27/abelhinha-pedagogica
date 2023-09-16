@@ -14,15 +14,33 @@ import {
 import { useParams, useNavigate } from "react-router-dom";
 import Layout from "../components/layout/article";
 import { useAppContext } from "../AppProvider";
-import { CreateOrder } from '../connect';
+import { CreateOrder, GetProductsByUser } from '../connect';
+import { useEffect, useState } from 'react';
 
 const Details = () => {
   const { id } = useParams();
+  const [isDisabled, setIsDisabled] = useState(false);
   const { products } = useAppContext();
   const { colorMode } = useColorMode();
   const navigate = useNavigate();
 
   const product = products.find((product) => product._id == id);
+
+  useEffect(() => {
+    const verify = async () => {
+      const prod = await GetProductsByUser();
+      const found = prod.some((p) => p._id == product._id);
+      if (found) {
+        setIsDisabled(true)
+        return false;
+      } else {
+        setIsDisabled(false)
+        return true;
+      }
+    }
+
+    verify()
+  })
 
   if (!product) {
     throw new Error("Product not found");
@@ -76,10 +94,10 @@ const Details = () => {
               width="100%"
             />
             <Box mr='5%'>
-              <Flex justifyContent="space-between">
+              <Flex justifyContent="space-between" alignItems='center'>
                 <Heading fontSize="2xl">{product.name}</Heading>
-                <Badge colorScheme="green" variant="solid">
-                  Em Estoque
+                <Badge p={1.5} colorScheme={isDisabled ? "yellow" : "green"} variant="outline">
+                  {isDisabled ? "Adquirido" : "Disponível"}
                 </Badge>
               </Flex>
               <Text mt={2} color={textColor} fontSize="lg" fontWeight="semibold">
@@ -96,9 +114,13 @@ const Details = () => {
                 mt={4}
                 fontSize="lg"
                 fontWeight="bold"
-                onClick={toBuy}
+                onClick={() => {
+                  isDisabled
+                    ? navigate('/login')
+                    : toBuy()
+                }}
               >
-                Comprar agora
+                {isDisabled ? "Acesse o produto" : "Compre agora"}
               </Button>
             </Box>
           </Flex>
