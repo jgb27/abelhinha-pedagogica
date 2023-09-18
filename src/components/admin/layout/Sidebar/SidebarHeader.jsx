@@ -1,6 +1,6 @@
 import { Box, Flex, Image, CloseButton, Text, useColorMode, IconButton, Button } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom"
-import { FiDatabase, FiPackage, FiUsers, FiXCircle } from "react-icons/fi"
+import { FiDatabase, FiPackage, FiUsers, FiUser, FiXCircle, FiShoppingCart } from "react-icons/fi"
 import { useAppContext } from "../../../../AppProvider"
 
 const NavItem = ({ icon, children, name }) => {
@@ -65,6 +65,8 @@ const SidebarContent = ({ onClose, ...rest }) => {
     { name: 'Produtos', icon: <FiDatabase /> },
     { name: '+ Produtos', icon: <FiPackage /> },
     { name: 'Usuários', icon: <FiUsers /> },
+    // { name: '+ Usuários', icon: <FiUser /> },
+    { name: 'Loja', icon: <FiShoppingCart /> },
     { name: 'Exit', icon: <FiXCircle /> }
   ]
 
