@@ -4,9 +4,11 @@ import LayoutAdmin from "../components/admin/layout/LayoutAdmin";
 import { useAppContext } from "../AppProvider";
 import ListAllProducts from "../components/admin/ListAllProducts";
 import ListAllUsers from "../components/admin/ListAllUsers";
+import { useNavigate } from "react-router-dom";
 
 const Admin = () => {
-  const { page } = useAppContext();
+  const { page, setPage } = useAppContext();
+  const navigate = useNavigate();
 
   const CurrentPage = () => {
     switch (page) {
@@ -16,6 +18,11 @@ const Admin = () => {
         return <ListAllUsers />
       case '+ Produtos':
         return <Forms />
+      // case '+ Usuários':
+      //   return <RegisterForm />
+      case 'Loja':
+        setPage('Produtos')
+        return navigate('/catalogo')
       case '':
         return <></>
       default:
