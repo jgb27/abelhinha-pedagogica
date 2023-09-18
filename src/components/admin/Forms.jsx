@@ -192,10 +192,6 @@ const Forms = () => {
               onChange={(e) => setProductName(e.target.value)}
             />
           </FormControl>
-          <Flex gap={16}>
-            <ImageDropZone />
-            <PdfDropZone />
-          </Flex>
           <FormControl isRequired mt={3}>
             <FormLabel>Preço</FormLabel>
             <Input
@@ -222,6 +218,10 @@ const Forms = () => {
               onChange={(e) => setProductDescription(e.target.value)}
             />
           </FormControl>
+          <Flex gap={16}>
+            <ImageDropZone />
+            <PdfDropZone />
+          </Flex>
           <Button type="submit" colorScheme="teal" mt={3}>
             Adicionar Produto
           </Button>
