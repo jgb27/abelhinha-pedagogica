@@ -17,9 +17,9 @@ function ThemeToggle({ spacing, position }) {
   };
 
   return (
-    <Box position={position} right={spacing} >
-      <Button onClick={handleModeToggle}>
-        {currentMode === 'light' ? <FaMoon /> : <FaSun />} {/* Ícones de sol e lua */}
+    <Box position={position} left='5px' right={spacing} >
+      <Button bg='transparent' onClick={handleModeToggle}>
+        {currentMode === 'light' ? <FaMoon /> : <FaSun />}
       </Button>
     </Box >
   );
