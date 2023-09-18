@@ -137,6 +137,22 @@ export const AccessPage = async (user) => {
   }
 };
 
+export const CreateUser = async (user) => {
+  try {
+    const response = await axios.post(`${apiUrl}/register`, {
+      name: user.name,
+      username: user.username,
+      password: user.password,
+      email: user.email,
+      fone: user.fone
+    })
+
+    return response.data;
+  } catch (error) {
+    throw error.response.data
+  }
+}
+
 export const FindProduct = async ({ name, term }) => {
   try {
     const response = await axios.get(`${apiUrl}/product/${term}/${name}`)

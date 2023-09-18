@@ -14,7 +14,7 @@ const Layout = ({ children, title }) => {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <Container maxW={`container.${title == "login" ? "sm" : "lg"}`} mt={title == "login" ? "20" : 0} pb={16}>
+        <Container maxW={`container.${title == "form" ? "sm" : "lg"}`} mt={title == "form" ? "15" : 0} pb={16}>
           {children}
         </Container>
       </motion.article>
