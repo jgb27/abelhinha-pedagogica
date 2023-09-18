@@ -79,7 +79,7 @@ const Details = () => {
 
   return (
     <Layout title={product.name}>
-      <Center mt='20%'>
+      <Center mt={'13%'}>
         <Box
           borderWidth="0px"
           borderRadius="lg"
@@ -89,6 +89,8 @@ const Details = () => {
           <Flex
             alignItems='center'
             justifyContent='center'
+            gap={[2, 10]}
+            flexDirection={['column', 'row']}
           >
             <Image
               src={product.image_url}

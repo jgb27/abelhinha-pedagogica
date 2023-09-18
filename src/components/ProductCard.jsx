@@ -15,7 +15,8 @@ const ProductCard = ({ id, name, price, tags, imageUrl }) => {
   };
 
   const renderTags = () => {
-    return tags.map((tag) => (
+    const tagsForList = tags.length >= 3 ? tags.slice(tags.length - 3) : tags
+    return tagsForList.map((tag) => (
       <Box
         key={tag}
         bg={tagBgColor[colorMode]}
@@ -67,6 +68,7 @@ const ProductCard = ({ id, name, price, tags, imageUrl }) => {
         </Flex>
         <Flex
           display={['none', 'flex', 'flex']}
+          flexWrap="wrap"
           flexDirection="row"
           justify="center"
           align="center"

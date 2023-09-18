@@ -1,6 +1,6 @@
 import { Box, Flex, Image, CloseButton, Text, useColorMode, IconButton, Button } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom"
-import { FiPackage, FiUser, FiXCircle, FiShoppingCart } from "react-icons/fi"
+import { FiPackage, FiXCircle, FiShoppingCart } from "react-icons/fi"
 import { useAppContext } from "../../../../AppProvider"
 
 const NavItem = ({ icon, children, name }) => {
