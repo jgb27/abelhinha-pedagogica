@@ -7,6 +7,7 @@ import AdminPanel from './pages/AdminPanel'
 import UserPanel from './pages/UserPanel'
 import Details from './pages/Details'
 import Login from './pages/Login';
+import Register from './pages/Register';
 import NotFound from './pages/NotFound';
 
 const App = () => {
@@ -18,6 +19,7 @@ const App = () => {
       <Route path='/user' element={<UserPanel />} />
       <Route path='/contato' element={<Contato />} />
       <Route path='/login' element={<Login />} />
+      <Route path='/register' element={<Register />} />
       <Route path='/details/:id' element={<Details />} />
       <Route path='*'
         element={

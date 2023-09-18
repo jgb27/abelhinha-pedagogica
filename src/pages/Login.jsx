@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Heading, Button, FormControl, FormLabel, Input, VStack, Image, Box, useColorMode, useToast } from '@chakra-ui/react';
+import { Heading, Button, FormControl, FormLabel, Input, VStack, Image, Box, useColorMode, useToast, Flex } from '@chakra-ui/react';
 import Layout from '../components/layout/article';
 import { AccessPage } from '../connect';
 import { useNavigate } from "react-router-dom";
@@ -64,7 +64,7 @@ function Login() {
   };
 
   return (
-    <Layout title="login">
+    <Layout title="form">
       <Box
         bg={colorMode === 'light' ? "white" : "gray.800"}
         p={6}
@@ -110,6 +110,16 @@ function Login() {
               width="100%"
             >
               Login
+            </Button>
+            <Button
+              type="button"
+              colorScheme="blue"
+              variant='ghost'
+              mt={4}
+              width="100%"
+              onClick={() => navigate('/register')}
+            >
+              Cadastrar
             </Button>
           </form>
         </VStack>
