@@ -12,12 +12,12 @@ import {
 import { NavLink } from "react-router-dom"
 import ThemeToggle from "../ThemeToggle";
 
-const UserInfo = () => {
+const UserInfo = ({ display }) => {
   const token = localStorage.getItem('token')
   if (token) {
     const role = localStorage.getItem('role')
     return (
-      <Box position="absolute" left={[3, 8]}>
+      <Box display={display} position="absolute" left={[3, 8]}>
         <NavLink to={role == 'admin' ? '/admin' : '/user'} textDecoration="none">
           <Text
             color="white"
@@ -38,7 +38,7 @@ const UserInfo = () => {
     )
   } else {
     return (
-      <Box position="absolute" left={[3, 8]}>
+      <Box display={display} position="absolute" left={[3, 8]}>
         <NavLink to="/login" textDecoration="none">
           <Text
             color="white"
@@ -62,6 +62,13 @@ const UserInfo = () => {
 
 const Header = ({ title, image }) => {
 
+  const LinkItems = [
+    { name: 'Home', to: '/' },
+    { name: 'Catalogo', to: '/catalogo' },
+    { name: 'Contato', to: '/contato' },
+    { name: 'Acesse sua Conta', to: '/login' }
+  ]
+
   return (
     <VStack
       as="header"
@@ -72,13 +79,14 @@ const Header = ({ title, image }) => {
       pt="1rem"
       pb="0.5rem"
     >
-      <ThemeToggle position='absolute' spacing={[3, 8]} />
-      <UserInfo />
+
+      <UserInfo display={{ base: 'none', md: 'block' }} />
       <Flex as="div" align="center" justify="center" gap="0.5rem">
         <Image src={image} alt="abelhinha" w="2rem" />
         <Heading as="h1" fontSize="1.5rem">
           {title}
         </Heading>
+        <ThemeToggle position='relative' spacing={[3, 8]} />
       </Flex>
       <Box
         as="nav"
@@ -88,9 +96,19 @@ const Header = ({ title, image }) => {
         alignItems="center"
         gap="1rem"
       >
-        <NavLink to="/">Home</NavLink>
-        <NavLink to="/catalogo">Catalogo</NavLink>
-        <NavLink to="/contato">Contato</NavLink>
+        {LinkItems.map((link) => {
+          if (link.to == '/login') {
+            return (
+              <Box display={{ base: 'block', md: 'none' }}>
+                <NavLink
+                  to={link.to}>
+                  {link.name}
+                </NavLink>
+              </Box>
+            )
+          };
+          return <NavLink to={link.to}>{link.name}</NavLink>
+        })}
       </Box>
     </VStack>
   );
