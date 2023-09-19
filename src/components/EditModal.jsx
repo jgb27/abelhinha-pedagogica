@@ -16,11 +16,17 @@ import {
   FormControl,
   Box,
   Image,
+  useToast
 } from "@chakra-ui/react";
 import { useDropzone } from "react-dropzone";
+import { UpdateProduct } from "../connect";
 
 const EditModal = ({ isOpen, onClose, product, onSave }) => {
   const { colorMode } = useColorMode();
+
+  const toast = useToast({
+    position: "top-right",
+  });
 
   const [productName, setProductName] = useState(product.name);
   const [productPrice, setProductPrice] = useState(product.price);
@@ -36,11 +42,33 @@ const EditModal = ({ isOpen, onClose, product, onSave }) => {
       price: productPrice,
       tags: productTags.split(",").map((tag) => tag.trim()),
       description: productDescription,
-      imagem_url: !productImage ? product.imagem_url : productImage,
+      imagem_url: !productImage ? product.image_url : productImage,
       pdf_url: !productPdf ? product.pdf_url : productPdf,
     };
 
-    await onSave(editedProduct);
+    try {
+      const { product } = await UpdateProduct(editedProduct)
+
+      toast({
+        title: "Produto Editado",
+        description: "O produto foi editado com sucesso.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+
+      onSave(product)
+
+    } catch (error) {
+      console.error("Error editing product:", error);
+      toast({
+        title: "Erro ao editar Produto",
+        description: "Ocorreu um erro ao editar o produto.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
   };
 
   const ImageDropZone = () => {

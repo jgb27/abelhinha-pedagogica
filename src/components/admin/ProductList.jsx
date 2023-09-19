@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Container, Table, Thead, Tbody, Tr, Th, Td, Button, Flex, Text, Image } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/react";
 import { useAppContext } from "../../AppProvider";
-import { DeleteProduct, UpdateProduct } from "../../connect";
+import { DeleteProduct } from "../../connect";
 import DeleteConfirmationModal from "../DeleteConfirmationModal";
 import EditModal from "../EditModal";
 import ProductTableRow from "./ProductTableRow";
@@ -31,34 +31,12 @@ function ProductList() {
 
   const handleEdit = async (editedProduct) => {
     if (editedProduct) {
-      try {
-        await UpdateProduct(editedProduct);
-
-        const updatedProducts = products.map((product) =>
-          product._id === editedProduct._id ? editedProduct : product
-        );
-        setProducts(updatedProducts);
-
-        toast({
-          title: "Produto Editado",
-          description: "O produto foi editado com sucesso.",
-          status: "success",
-          duration: 3000,
-          isClosable: true,
-        });
-
-        setProductId(null);
-        setIsEditModalOpen(false);
-      } catch (error) {
-        console.error("Error editing product:", error);
-        toast({
-          title: "Erro ao editar Produto",
-          description: "Ocorreu um erro ao editar o produto.",
-          status: "error",
-          duration: 3000,
-          isClosable: true,
-        });
-      }
+      const updatedProducts = products.map((product) =>
+        product._id === editedProduct._id ? editedProduct : product
+      );
+      setProducts(updatedProducts);
+      setProductId(null);
+      setIsEditModalOpen(false);
     }
   };
 
@@ -113,15 +91,6 @@ function ProductList() {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
     }
-  };
-
-  const getNamePdf = (productPdfUrl) => {
-    if (productPdfUrl) {
-      var parseUrl = productPdfUrl.split("/");
-      var filename = parseUrl[parseUrl.length - 1];
-      return decodeURIComponent(filename);
-    }
-    return "";
   };
 
   return (
