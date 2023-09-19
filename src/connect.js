@@ -90,6 +90,32 @@ export const AddProduct = async (product) => {
   }
 };
 
+export const UpdateProduct = async (product) => {
+  try {
+    const token = getTokenFromLocalStorage();
+    const formData = new FormData();
+
+    formData.append('name', product.name);
+    formData.append('price', product.price);
+    formData.append('tags', product.tags);
+    formData.append('description', product.description);
+    formData.append('image', product.imagem_url);
+    formData.append('pdf', product.pdf_url);
+
+    const response = await axios.put(`${apiUrl}/product/${product._id}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Authorization': `${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error adding product:", error);
+    throw error;
+  }
+}
+
 export const DeleteProduct = async (productId) => {
   try {
     const token = getTokenFromLocalStorage();

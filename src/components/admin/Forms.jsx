@@ -89,7 +89,6 @@ const Forms = () => {
     }
   };
 
-
   const ImageDropZone = () => {
 
     const onDrop = (acceptedFiles) => {

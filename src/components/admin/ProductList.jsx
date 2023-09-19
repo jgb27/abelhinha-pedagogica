@@ -1,51 +1,72 @@
-import React, { useState } from "react";
-import {
-  Container,
-  Table,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Thead,
-  Tr,
-  IconButton,
-  useToast,
-  Collapse,
-  Box,
-  Flex,
-  Button,
-  Image,
-} from "@chakra-ui/react";
-
-import { AttachmentIcon, DeleteIcon, TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
-
+// ProductList.js
+import React, { useEffect, useState } from "react";
+import { Container, Table, Thead, Tbody, Tr, Th, Td, Button, Flex, Text, Image } from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/react";
 import { useAppContext } from "../../AppProvider";
-import { DeleteProduct } from "../../connect";
+import { DeleteProduct, UpdateProduct } from "../../connect";
 import DeleteConfirmationModal from "../DeleteConfirmationModal";
+import EditModal from "../EditModal";
+import ProductTableRow from "./ProductTableRow";
+import Pagination from "./Pagination";
 
 function ProductList() {
   const { products, setProducts } = useAppContext();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [productIdToDelete, setProductIdToDelete] = useState(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [productId, setProductId] = useState(null);
 
   const toast = useToast({
     position: "top-right",
   });
 
-  const formatPrice = (price) => {
-    return price.toString().replace(".", ",")
-  };
-
   const handleRemoveClick = (productId) => {
-    setProductIdToDelete(productId);
+    setProductId(productId);
     setIsDeleteModalOpen(true);
   };
 
-  const handleConfirmDelete = async () => {
-    if (productIdToDelete) {
+  const handleEditClick = (productId) => {
+    setProductId(productId);
+    setIsEditModalOpen(true);
+  };
+
+  const handleEdit = async (editedProduct) => {
+    if (editedProduct) {
       try {
-        await DeleteProduct(productIdToDelete);
-        const updatedProducts = products.filter((product) => product._id !== productIdToDelete);
+        await UpdateProduct(editedProduct);
+
+        const updatedProducts = products.map((product) =>
+          product._id === editedProduct._id ? editedProduct : product
+        );
+        setProducts(updatedProducts);
+
+        toast({
+          title: "Produto Editado",
+          description: "O produto foi editado com sucesso.",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+
+        setProductId(null);
+        setIsEditModalOpen(false);
+      } catch (error) {
+        console.error("Error editing product:", error);
+        toast({
+          title: "Erro ao editar Produto",
+          description: "Ocorreu um erro ao editar o produto.",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      }
+    }
+  };
+
+  const handleConfirmDelete = async () => {
+    if (productId) {
+      try {
+        await DeleteProduct(productId);
+        const updatedProducts = products.filter((product) => product._id !== productId);
         setProducts(updatedProducts);
 
         toast({
@@ -65,7 +86,7 @@ function ProductList() {
           isClosable: true,
         });
       } finally {
-        setProductIdToDelete(null);
+        setProductId(null);
         setIsDeleteModalOpen(false);
       }
     }
@@ -95,10 +116,13 @@ function ProductList() {
   };
 
   const getNamePdf = (productPdfUrl) => {
-    var parseUrl = productPdfUrl.split("/");
-    var filename = parseUrl[parseUrl.length - 1];
-    return decodeURIComponent(filename)
-  }
+    if (productPdfUrl) {
+      var parseUrl = productPdfUrl.split("/");
+      var filename = parseUrl[parseUrl.length - 1];
+      return decodeURIComponent(filename);
+    }
+    return "";
+  };
 
   return (
     <Container maxW="full">
@@ -108,103 +132,45 @@ function ProductList() {
             <Th>Nome</Th>
             <Th>Preço</Th>
             <Th>Imagem</Th>
-            <Th>Expandir</Th>
-            <Th>Download</Th>
+            <Th>Anexo</Th>
+            <Th>Editar</Th>
+            <Th>Detalhes</Th>
+            <Th>Remover</Th>
           </Tr>
         </Thead>
         <Tbody>
           {currentProducts.map((product) => (
-            <React.Fragment key={product._id}>
-              <Tr>
-                <Td>{product.name}</Td>
-                <Td>R$ {formatPrice(product.price)}</Td>
-                <Td>
-                  <Image src={product.image_url} alt={product.name} boxSize="50px" />
-                </Td>
-                <Td>
-                  <Flex gap={2}>
-                    {product.pdf_url && (<IconButton
-                      icon={<AttachmentIcon />}
-                      onClick={() => {
-                        const href = product.pdf_url;
-                        window.open(href, '_blank')
-                      }}
-                      aria-label={`Download ${product.name}`}
-                    />)}
-                    <IconButton
-                      icon={expandedProduct === product._id ? <TriangleUpIcon /> : <TriangleDownIcon />}
-                      onClick={() => setExpandedProduct(expandedProduct === product._id ? null : product._id)}
-                      aria-label={`Expandir ${product.name}`}
-                    />
-                  </Flex>
-                </Td>
-                <Td>
-                  <IconButton
-                    icon={<DeleteIcon />}
-                    onClick={() => handleRemoveClick(product._id)}
-                    aria-label={`Remover ${product.name}`}
-                    colorScheme="red"
-                  />
-                </Td>
-              </Tr>
-              <Tr>
-                <Td colSpan={5} border='none'>
-                  <Collapse in={expandedProduct === product._id}>
-                    <Box p={4} bg="transparent" borderRadius="none" border='none'>
-                      <Text fontSize="lg" fontWeight="light">
-                        <strong>Descrição do Produto:</strong> {product.description}
-                      </Text>
-                      <Text mt={4} fontSize="lg" fontWeight="light">
-                        <strong>Tags:</strong> {product.tags.join(", ")}
-                      </Text>
-                      <Text mt={4} fontSize="lg" fontWeight="light">
-                        <strong>Anexo:</strong> {getNamePdf(product.pdf_url)}
-                      </Text>
-                    </Box>
-                  </Collapse>
-                </Td>
-              </Tr>
-            </React.Fragment>
+            <ProductTableRow
+              key={product._id}
+              product={product}
+              handleEditClick={handleEditClick}
+              handleRemoveClick={handleRemoveClick}
+              expandedProduct={expandedProduct}
+              setExpandedProduct={setExpandedProduct}
+            />
           ))}
         </Tbody>
       </Table>
-      <Flex justify="center" mt="1rem" mb="1rem" align="center">
-        <Button
-          onClick={handlePrevPage}
-          bg="transparent"
-          color={currentPage === 1 ? "gray.500" : "white"}
-          _hover={
-            currentPage === 1
-              ? { bg: "transparent", color: "gray.500" }
-              : { bg: "transparent", color: "gray.300" }
-          }
-          isDisabled={currentPage === 1}
-        >
-          Anterior
-        </Button>
-        <Text ml="1rem" mr="1rem" mt="0.5rem">
-          {currentPage} de {totalPages}
-        </Text>
-        <Button
-          onClick={handleNextPage}
-          bg="transparent"
-          color={currentPage === totalPages ? "gray.500" : "white"}
-          _hover={
-            currentPage === totalPages
-              ? { bg: "transparent", color: "gray.500" }
-              : { bg: "transparent", color: "gray.300" }
-          }
-          isDisabled={currentPage === totalPages}
-        >
-          Próxima
-        </Button>
-      </Flex>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        handlePrevPage={handlePrevPage}
+        handleNextPage={handleNextPage}
+      />
       {isDeleteModalOpen && (
         <DeleteConfirmationModal
-          product={products.filter((product) => product._id === productIdToDelete)}
+          product={products.find((product) => product._id === productId)}
           isOpen={isDeleteModalOpen}
           onClose={() => setIsDeleteModalOpen(false)}
           onConfirmDelete={handleConfirmDelete}
+        />
+      )}
+      {isEditModalOpen && (
+        <EditModal
+          product={products.find((product) => product._id === productId)}
+          isOpen={isEditModalOpen}
+          onClose={() => setIsEditModalOpen(false)}
+          onSave={handleEdit}
         />
       )}
     </Container>

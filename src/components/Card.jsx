@@ -9,7 +9,6 @@ import {
 const CardInfo = ({ icon, title, description }) => {
   const { colorMode } = useColorMode();
 
-  // Defina cores diferentes para o modo claro e escuro
   const cardBgColor = { light: 'white', dark: 'gray.800' };
   const cardTextColor = { light: 'gray.800', dark: 'white' };
   const boxShadowColor = { light: 'rgba(0, 0, 0, 0.4)', dark: 'rgba(255, 255, 255, 0.4)' };
