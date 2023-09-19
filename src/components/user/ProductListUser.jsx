@@ -17,7 +17,7 @@ import {
   Image,
 } from "@chakra-ui/react";
 
-import { AttachmentIcon, DeleteIcon, DownloadIcon, TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
+import { DownloadIcon, TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 
 import { DeleteProduct, GetProductsByUser } from "../../connect";
 import DeleteConfirmationModal from "../DeleteConfirmationModal";

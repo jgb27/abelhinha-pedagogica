@@ -22,7 +22,7 @@ function Login() {
   const { colorMode } = useColorMode();
 
   const toast = useToast({
-    position: 'bottom-right',
+    position: 'top-right',
   });
 
   const handleInputChange = (e) => {

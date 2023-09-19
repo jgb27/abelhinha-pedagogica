@@ -1,96 +1,77 @@
 import React, { useState } from "react";
 import {
-  Box,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalBody,
+  ModalCloseButton,
+  useColorMode,
   Button,
   Input,
   Textarea,
-  useToast,
-  FormControl,
-  FormLabel,
+  ModalHeader,
   Text,
-  Image,
-  useColorMode,
+  FormLabel,
   Flex,
-  Container
+  FormControl,
+  Box,
+  Image,
+  useToast
 } from "@chakra-ui/react";
 import { useDropzone } from "react-dropzone";
-import { motion } from "framer-motion";
-import { AddProduct } from "../../connect";
-import { useAppContext } from "../../AppProvider"
+import { UpdateProduct } from "../connect";
 
-const Forms = () => {
+const EditModal = ({ isOpen, onClose, product, onSave }) => {
   const { colorMode } = useColorMode();
-  const { products, setProducts } = useAppContext();
-  const [productName, setProductName] = useState("");
-  const [productImage, setProductImage] = useState(null);
-  const [productPdf, setProductPdf] = useState(null);
-  const [productPrice, setProductPrice] = useState(0);
-  const [productTags, setProductTags] = useState("");
-  const [productDescription, setProductDescription] = useState("");
 
   const toast = useToast({
-    position: 'top-right'
+    position: "top-right",
   });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const [productName, setProductName] = useState(product.name);
+  const [productPrice, setProductPrice] = useState(product.price);
+  const [productTags, setProductTags] = useState(product.tags.join(", "));
+  const [productDescription, setProductDescription] = useState(product.description);
+  const [productImage, setProductImage] = useState(null);
+  const [productPdf, setProductPdf] = useState(null);
 
-    if (!productName || !productImage || productPrice <= 0) {
-      toast({
-        title: "Formulário Incompleto",
-        description: "Por favor, preencha todos os campos obrigatórios.",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
-      return;
-    }
-
-    const newProduct = {
+  const handleSave = async () => {
+    const editedProduct = {
+      _id: product._id,
       name: productName,
-      imagem_url: productImage,
-      pdf_url: productPdf,
       price: productPrice,
-      url: "",
-      tags: productTags,
+      tags: productTags.split(",").map((tag) => tag.trim()),
       description: productDescription,
+      imagem_url: !productImage ? product.image_url : productImage,
+      pdf_url: !productPdf ? product.pdf_url : productPdf,
     };
 
     try {
-
-      const response = await AddProduct(newProduct).then(data => {
-        setProducts([...products, data.product]);
-        return data;
-      })
-
-      setProductName("");
-      setProductImage(null);
-      setProductPdf(null);
-      setProductPrice(0);
-      setProductTags("");
-      setProductDescription("");
+      const { product } = await UpdateProduct(editedProduct)
 
       toast({
-        title: `${response.message}`,
-        description: `O produto ${response.product.name} foi adicionado`,
+        title: "Produto Editado",
+        description: "O produto foi editado com sucesso.",
         status: "success",
         duration: 3000,
         isClosable: true,
       });
 
+      onSave(product)
+
     } catch (error) {
+      console.error("Error editing product:", error);
       toast({
-        title: 'Não foi possível adicionar',
-        description: `${error.response.data.message}`,
+        title: "Erro ao editar Produto",
+        description: "Ocorreu um erro ao editar o produto.",
         status: "error",
         duration: 3000,
-        isClosable: true
+        isClosable: true,
       });
     }
   };
 
   const ImageDropZone = () => {
-
     const onDrop = (acceptedFiles) => {
       if (acceptedFiles.length > 0) {
         setProductImage(acceptedFiles[0]);
@@ -124,11 +105,10 @@ const Forms = () => {
           </Box>
         )}
       </FormControl>
-    )
-  }
+    );
+  };
 
   const PdfDropZone = () => {
-
     const onDrop = (acceptedFiles) => {
       if (acceptedFiles.length > 0) {
         setProductPdf(acceptedFiles[0]);
@@ -157,77 +137,90 @@ const Forms = () => {
         </Box>
         {productPdf && (
           <Box mt={3}>
-            <Text color='green.300'>Arquivo selecionado: {productPdf.name}</Text>
+            <Text color="green.300">Arquivo selecionado: {productPdf.name}</Text>
           </Box>
         )}
-
       </FormControl>
-    )
-  }
+    );
+  };
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
-    >
-      <Container maxW='container.lg' >
-        <Text
-          fontSize="2xl"
-          fontWeight="bold"
-          textAlign="center"
-          color={colorMode === "dark" ? "white" : "black"}
-        >
-          Cadastrando produto
-        </Text>
-        <form onSubmit={handleSubmit}>
-          <FormControl isRequired mt={3}>
+    <Modal isOpen={isOpen} onClose={onClose} size="6xl">
+      <ModalOverlay />
+      <ModalContent
+        bg={colorMode === "dark" ? "gray.800" : "white"}
+        color={colorMode === "dark" ? "white" : "black"}
+        boxShadow="lg"
+        borderRadius="md"
+        p={4}
+      >
+        <ModalCloseButton />
+        <ModalHeader>
+          <Text fontSize="xl" fontWeight="bold">
+            Editando Produto
+          </Text>
+        </ModalHeader>
+        <ModalBody>
+          <Flex direction="column">
             <FormLabel>Nome do Produto</FormLabel>
             <Input
               type="text"
               placeholder="Nome do Produto"
               value={productName}
               onChange={(e) => setProductName(e.target.value)}
+              mt={2}
+              borderRadius="md"
+              borderColor="gray.300"
             />
-          </FormControl>
-          <FormControl isRequired mt={3}>
-            <FormLabel>Preço</FormLabel>
+            <FormLabel mt={4}>Preço do Produto</FormLabel>
             <Input
               type="number"
-              placeholder="Preço"
+              placeholder="Preço do Produto"
               value={productPrice}
               onChange={(e) => setProductPrice(parseFloat(e.target.value))}
+              mt={2}
+              borderRadius="md"
+              borderColor="gray.300"
             />
-          </FormControl>
-          <FormControl isRequired mt={3}>
-            <FormLabel>Tags (separadas por vírgula)</FormLabel>
+            <FormLabel mt={4}>Tags (separadas por vírgula)</FormLabel>
             <Input
               type="text"
               placeholder="Tags (separadas por vírgula)"
               value={productTags}
               onChange={(e) => setProductTags(e.target.value)}
+              mt={2}
+              borderRadius="md"
+              borderColor="gray.300"
             />
-          </FormControl>
-          <FormControl isRequired mt={3}>
-            <FormLabel>Descrição</FormLabel>
+            <FormLabel mt={4}>Descrição do Produto</FormLabel>
             <Textarea
-              placeholder="Descrição"
+              placeholder="Descrição do Produto"
               value={productDescription}
               onChange={(e) => setProductDescription(e.target.value)}
+              mt={2}
+              borderRadius="md"
+              borderColor="gray.300"
+              resize="vertical"
             />
-          </FormControl>
-          <Flex gap={16}>
-            <ImageDropZone />
-            <PdfDropZone />
           </Flex>
-          <Button type="submit" colorScheme="teal" mt={3}>
-            Adicionar Produto
+          <Flex mt={4} justifyContent="space-between">
+            <PdfDropZone />
+            <ImageDropZone />
+          </Flex>
+          <Button
+            colorScheme="blue"
+            onClick={handleSave}
+            mt={4}
+            borderRadius="md"
+            _hover={{ bg: "blue.600" }}
+            alignSelf="flex-end"
+          >
+            Salvar Alterações
           </Button>
-        </form>
-      </Container>
-    </motion.div>
+        </ModalBody>
+      </ModalContent>
+    </Modal>
   );
 };
 
-export default Forms;
+export default EditModal;

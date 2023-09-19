@@ -20,7 +20,7 @@ function DeleteConfirmationModal({ product, isOpen, onClose, onConfirmDelete }) 
         <ModalHeader>Confirmação de Exclusão</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Text>Você tem certeza que deseja excluir: {product[0].name}</Text>
+          <Text>Você tem certeza que deseja excluir: {product.name}</Text>
         </ModalBody>
         <ModalFooter>
           <Center w='100%'>
